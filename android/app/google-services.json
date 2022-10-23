@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "178858368276",
+    "project_id": "mim-app-f6c71",
+    "storage_bucket": "mim-app-f6c71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178858368276:android:04064e98c302f4dd9c7601",
+        "android_client_info": {
+          "package_name": "com.hypermedialabs.MIM"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178858368276-2r60gpcg2k7k2282o9vcjm90jca5fq1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0uIskI0PXZI-l4b2vUXpWrpmXaTuXIA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178858368276-2r60gpcg2k7k2282o9vcjm90jca5fq1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
