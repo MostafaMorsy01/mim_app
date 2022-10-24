@@ -15,11 +15,11 @@ class APIResponse {
   factory APIResponse.fromJson(Map<String, dynamic>? json) {
     return APIResponse(
       status: json!['code'] ?? 200,
-      data: json!['data'] ?? {},
-      message: json!['message'] ?? "",
+      data: json['data'] ?? {},
+      message: json['message'] ?? "",
       validation:
-          json!['validation'] == null ? [] : List<String>.from(['validation']),
-      item: json!['item'] ?? 0,
+          json['validation'] == null ? [] : List<String>.from(['validation']),
+      item: json['item'] ?? 0,
     );
   }
 }

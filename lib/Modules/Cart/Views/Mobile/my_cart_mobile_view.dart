@@ -10,11 +10,13 @@ import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/cart_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../Constants/app_enums.dart';
 
 class MyCartMobileView extends StatefulWidget {
   const MyCartMobileView({Key? key}) : super(key: key);
+  static String id = 'cartScreen';
 
   @override
   State<MyCartMobileView> createState() => _MyCartMobileViewState();
@@ -25,6 +27,7 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
   late CartViewModel cartViewModel;
   int _counter = 1;
   bool isSelected = false;
+  bool isVisible1 = false;
   @override
   void initState() {
     cartViewModel =
@@ -32,168 +35,182 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
     Future(() async {
       await cartViewModel.cartFetchingData(context);
     });
+    callThisMethod(isVisible1);
     super.initState();
   }
 
+  void callThisMethod(bool isVisible){
+    debugPrint('_CartView.callThisMethod: isVisible: ${isVisible}');
+    if(isVisible) {
+      cartViewModel.cartFetchingData(context);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     cartViewModel =
         Provider.of<CartViewModel>(context, listen: true);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        flexibleSpace: TitleAppBar1(
-          title: getTranslated(context, "shopping_cart"),
+    return VisibilityDetector(
+      key: Key(MyCartMobileView.id),
+      onVisibilityChanged: (VisibilityInfo info) {
+        bool isVisible = info.visibleFraction != 0;
+        callThisMethod(isVisible);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: TitleAppBar1(
+            title: getTranslated(context, "shopping_cart"),
+          ),
+          elevation: 0,
         ),
-        elevation: 0,
-      ),
-      body: cartViewModel.secondaryStatus == Status.loading ||
-          cartViewModel.cartCore == null
-          ? const Center(child: CircularProgressIndicator())
-      :Column(
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Expanded(
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (scrollNotification) {
-                return false;
-              },
-              child: Center(
-                  child: Scrollbar(
-                controller: _scrollController,
-                child: CustomScrollView(
+        body: cartViewModel.secondaryStatus == Status.loading ||
+            cartViewModel.cartCore == null
+            ? const Center(child: CircularProgressIndicator())
+        :Column(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            Expanded(
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  return false;
+                },
+                child: Center(
+                    child: Scrollbar(
                   controller: _scrollController,
-                  scrollDirection: Axis.vertical,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  slivers: <Widget>[
-                    SliverGrid.count(
-                      crossAxisCount: 1,
-                      //crossAxisSpacing: 10.0,
-                      //mainAxisSpacing: 5.0,
-                      childAspectRatio: deviceSize.width / 210,
-                      children:
-                      List.generate(
-                        cartViewModel.cartCore!.cartItem!.length,
-                        (index) {
-                          return  CartItemWidget(
-                            qty: cartViewModel.cartCore!.cartItem![index].quantity ?? 0,
-                            img: cartViewModel.cartCore!.cartItem![index].product?.image ?? "",
-                            name: cartViewModel.cartCore!.cartItem![index].product?.name ?? "",
-                            price:cartViewModel.cartCore!.cartItem![index].product?.price ?? 0 ,
-                            store: cartViewModel.cartCore!.cartItem![index].product?.store ?? "",
-                          );
-                        },
+                  child: CustomScrollView(
+                    controller: _scrollController,
+                    scrollDirection: Axis.vertical,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: <Widget>[
+                      SliverGrid.count(
+                        crossAxisCount: 1,
+                        //crossAxisSpacing: 10.0,
+                        //mainAxisSpacing: 5.0,
+                        childAspectRatio: deviceSize.width / 210,
+                        children:
+                        List.generate(
+                          cartViewModel.cartCore!.cartItem!.length,
+                          (index) {
+                            return  CartItemWidget(
+                              qty: cartViewModel.cartCore!.cartItem![index].quantity ?? 0,
+                              img: cartViewModel.cartCore!.cartItem![index].product?.image ?? "",
+                              name: cartViewModel.cartCore!.cartItem![index].product?.name ?? "",
+                              price:cartViewModel.cartCore!.cartItem![index].product?.price ?? 0 ,
+                              store: cartViewModel.cartCore!.cartItem![index].product?.store ?? "",
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              )),
+                    ],
+                  ),
+                )),
+              ),
             ),
-          ),
-          Container(
-            //height: 230,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            decoration: const BoxDecoration(
-                border: Border(
-                    top: BorderSide(color: AppColors.grey217, width: 1))),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      alignment: setAlignmnetToCenterStart(context),
-                      child: SelectableText(
-                        getTranslated(context, "summation"),
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                            fontFamily: AppFonts.cairoFontSemiBold,
-                            fontSize: 17,
-                            color: AppColors.black),
+            Container(
+              //height: 230,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              decoration: const BoxDecoration(
+                  border: Border(
+                      top: BorderSide(color: AppColors.grey217, width: 1))),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        alignment: setAlignmnetToCenterStart(context),
+                        child: SelectableText(
+                          getTranslated(context, "summation"),
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                              fontFamily: AppFonts.cairoFontSemiBold,
+                              fontSize: 17,
+                              color: AppColors.black),
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      alignment: setAlignmnetToCenterStart(context),
-                      child:  SelectableText(
-                        "${cartViewModel.cartCore!.subTotal} ر.س ",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontFamily: AppFonts.cairoFontRegular,
-                            fontSize: 18,
-                            color: AppColors.primary),
+                      const Spacer(),
+                      Container(
+                        alignment: setAlignmnetToCenterStart(context),
+                        child:  SelectableText(
+                          "${cartViewModel.cartCore!.subTotal} ر.س ",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontFamily: AppFonts.cairoFontRegular,
+                              fontSize: 18,
+                              color: AppColors.primary),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      alignment: setAlignmnetToCenterStart(context),
-                      child: SelectableText(
-                        getTranslated(context, "shipping"),
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                            fontFamily: AppFonts.cairoFontSemiBold,
-                            fontSize: 17,
-                            color: AppColors.black),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        alignment: setAlignmnetToCenterStart(context),
+                        child: SelectableText(
+                          getTranslated(context, "shipping"),
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                              fontFamily: AppFonts.cairoFontSemiBold,
+                              fontSize: 17,
+                              color: AppColors.black),
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      alignment: setAlignmnetToCenterStart(context),
-                      child:  SelectableText(
-                        "${cartViewModel.cartCore!.shipmentFees} ر.س ",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontFamily: AppFonts.cairoFontRegular,
-                            fontSize: 18,
-                            color: AppColors.primary),
+                      const Spacer(),
+                      Container(
+                        alignment: setAlignmnetToCenterStart(context),
+                        child:  SelectableText(
+                          "${cartViewModel.cartCore!.shipmentFees} ر.س ",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontFamily: AppFonts.cairoFontRegular,
+                              fontSize: 18,
+                              color: AppColors.primary),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      alignment: setAlignmnetToCenterStart(context),
-                      child: SelectableText(
-                        getTranslated(context, "total"),
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                            fontFamily: AppFonts.cairoFontBold,
-                            fontSize: 20,
-                            color: AppColors.black),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        alignment: setAlignmnetToCenterStart(context),
+                        child: SelectableText(
+                          getTranslated(context, "total"),
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                              fontFamily: AppFonts.cairoFontBold,
+                              fontSize: 20,
+                              color: AppColors.black),
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      alignment: setAlignmnetToCenterStart(context),
-                      child: SelectableText(
-                        "${cartViewModel.cartCore!.total} ر.س ",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontFamily: AppFonts.cairoFontBold,
-                            fontSize: 18,
-                            color: AppColors.primary),
+                      const Spacer(),
+                      Container(
+                        alignment: setAlignmnetToCenterStart(context),
+                        child: SelectableText(
+                          "${cartViewModel.cartCore!.total} ر.س ",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontFamily: AppFonts.cairoFontBold,
+                              fontSize: 18,
+                              color: AppColors.primary),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          MainButton(
-            text: getTranslated(context, "complete_purchase"),
-            width: deviceSize.width * 0.9,
-            onPressed: () {},
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-        ],
+            MainButton(
+              text: getTranslated(context, "complete_purchase"),
+              width: deviceSize.width * 0.9,
+              onPressed: () {},
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
       ),
     );
   }
