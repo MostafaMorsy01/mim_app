@@ -25,10 +25,12 @@ class EndPoints {
   static const String get_products = '/store/products';
   static const String get_specification = '/store/specifications';
   static const String get_products_details = '/product';
+  static const String add_favourite = '/favorite/toggle';
 
   // cart end points
   static const String add_cart = '/cart/add/product';
   static const String view_cart = '/cart';
+  static const String delete_item_cart = '/cart/destroy/item';
 
   static const String auth = '/auth';
   static const String signUp = '/signUp';

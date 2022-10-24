@@ -8,6 +8,7 @@ import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/add_to_cart_view_model.dart';
 import 'package:meem_app/Modules/Products/ViewModel/product_detail_view_model.dart';
+import 'package:meem_app/Modules/Products/ViewModel/product_favourite_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../CommonWidget/toast.dart';
@@ -31,11 +32,14 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
   int _counter = 1;
   bool isSelected = false;
   late AddToCartViewModel addToCartViewModel;
+  late AddToFavouriteViewModel addToFavouriteViewModel;
 
   @override
   void initState() {
     addToCartViewModel =
         Provider.of<AddToCartViewModel>(context, listen: false);
+    addToFavouriteViewModel =
+        Provider.of<AddToFavouriteViewModel>(context, listen: false);
     productsDetailsViewModel =
         Provider.of<ProductsDetailsViewModel>(context, listen: false);
     Future(() async {
@@ -50,6 +54,8 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
     productsDetailsViewModel =
         Provider.of<ProductsDetailsViewModel>(context, listen: true);
     addToCartViewModel = Provider.of<AddToCartViewModel>(context, listen: true);
+    addToFavouriteViewModel =
+        Provider.of<AddToFavouriteViewModel>(context, listen: true);
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +64,7 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
         elevation: 0,
       ),
       body: productsDetailsViewModel.secondaryStatus == Status.loading ||
-              productsDetailsViewModel.productDetailsCore == null
+              productsDetailsViewModel.productDetailsCore == null || addToFavouriteViewModel.status == Status.loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
@@ -98,12 +104,27 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                         top: 10,
                         right: 25,
                         child: IconButton(
-                          icon: const ImageIcon(
-                            AssetImage(AppAssets.favRedOutlined),
+                          icon:  ImageIcon(
+                            productsDetailsViewModel.productDetailsCore!.product!.isFavorite == 1
+                            ? AssetImage(AppAssets.favRedFilled) :
+                              AssetImage(AppAssets.favRedOutlined),
+
                             color: AppColors.favRed,
                             size: 28,
                           ),
-                          onPressed: () {},
+                          onPressed: () async{
+                            bool result =
+                                await addToFavouriteViewModel
+                                .addToFav(productsDetailsViewModel.productDetailsCore!
+                                .product!.id ??
+                                0,
+                                context);
+
+                            if (result) {
+                              await productsDetailsViewModel.ProductsDetailsFetchingData(
+                                  context, widget.productId);
+                            }
+                          },
                         ),
                       ),
                     ],

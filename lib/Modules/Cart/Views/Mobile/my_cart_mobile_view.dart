@@ -9,6 +9,7 @@ import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/cart_view_model.dart';
+import 'package:meem_app/Modules/Cart/ViewModel/delete_cart_item_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -25,6 +26,7 @@ class MyCartMobileView extends StatefulWidget {
 class _MyCartMobileViewState extends State<MyCartMobileView> {
   final ScrollController _scrollController = ScrollController();
   late CartViewModel cartViewModel;
+  late DeleteItemCartViewModel deleteItemCartViewModel;
   int _counter = 1;
   bool isSelected = false;
   bool isVisible1 = false;
@@ -32,6 +34,7 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
   void initState() {
     cartViewModel =
         Provider.of<CartViewModel>(context, listen: false);
+    deleteItemCartViewModel = Provider.of<DeleteItemCartViewModel>(context, listen: false);
     Future(() async {
       await cartViewModel.cartFetchingData(context);
     });
@@ -65,7 +68,7 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
           elevation: 0,
         ),
         body: cartViewModel.secondaryStatus == Status.loading ||
-            cartViewModel.cartCore == null
+            cartViewModel.cartCore == null || deleteItemCartViewModel.secondaryStatus == Status.loading
             ? const Center(child: CircularProgressIndicator())
         :Column(
           children: [
@@ -92,14 +95,24 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
                         childAspectRatio: deviceSize.width / 210,
                         children:
                         List.generate(
-                          cartViewModel.cartCore!.cartItem!.length,
+                          cartViewModel.cartCore?.cartItem?.length ?? 0,
                           (index) {
                             return  CartItemWidget(
-                              qty: cartViewModel.cartCore!.cartItem![index].quantity ?? 0,
-                              img: cartViewModel.cartCore!.cartItem![index].product?.image ?? "",
-                              name: cartViewModel.cartCore!.cartItem![index].product?.name ?? "",
-                              price:cartViewModel.cartCore!.cartItem![index].product?.price ?? 0 ,
-                              store: cartViewModel.cartCore!.cartItem![index].product?.store ?? "",
+                              qty: cartViewModel.cartCore?.cartItem?[index].quantity ?? 0,
+                              img: cartViewModel.cartCore?.cartItem?[index].product?.image ?? "",
+                              name: cartViewModel.cartCore?.cartItem?[index].product?.name ?? "",
+                              price:cartViewModel.cartCore?.cartItem?[index].product?.price ?? 0 ,
+                              store: cartViewModel.cartCore?.cartItem?[index].product?.store ?? "",
+                              onDelete: () async{
+                                bool result =
+                                await deleteItemCartViewModel
+                                    .deleteFromCart(cartViewModel.cartCore!.cartItem![index].id ?? 0,
+                                    context);
+
+                                if (result) {
+                                  await cartViewModel.cartFetchingData(context);
+                                }
+                              },
                             );
                           },
                         ),
@@ -134,7 +147,7 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
                       Container(
                         alignment: setAlignmnetToCenterStart(context),
                         child:  SelectableText(
-                          "${cartViewModel.cartCore!.subTotal} ر.س ",
+                          "${cartViewModel.cartCore?.subTotal ?? 0} ر.س ",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontFamily: AppFonts.cairoFontRegular,
@@ -161,7 +174,7 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
                       Container(
                         alignment: setAlignmnetToCenterStart(context),
                         child:  SelectableText(
-                          "${cartViewModel.cartCore!.shipmentFees} ر.س ",
+                          "${cartViewModel.cartCore?.shipmentFees ?? 0} ر.س ",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontFamily: AppFonts.cairoFontRegular,
@@ -188,7 +201,7 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
                       Container(
                         alignment: setAlignmnetToCenterStart(context),
                         child: SelectableText(
-                          "${cartViewModel.cartCore!.total} ر.س ",
+                          "${cartViewModel.cartCore?.total ?? 0} ر.س ",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontFamily: AppFonts.cairoFontBold,
@@ -223,9 +236,11 @@ class CartItemWidget extends StatelessWidget {
     required this.store,
     required this.name,
     required this.price,
-    required this.qty
+    required this.qty,
+    required this.onDelete
   }) : super(key: key);
 
+  final Function onDelete;
   final String img;
   final String name;
   final String store;
@@ -324,14 +339,14 @@ class CartItemWidget extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: const ImageIcon(
-                  AssetImage(AppAssets.favRedOutlined),
-                  color: AppColors.primary,
-                  size: 32,
-                ),
-              )
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const ImageIcon(
+              //     AssetImage(AppAssets.favRedOutlined),
+              //     color: AppColors.primary,
+              //     size: 32,
+              //   ),
+              // )
             ],
           ),
         ),
@@ -356,7 +371,9 @@ class CartItemWidget extends StatelessWidget {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () {},
+                onPressed: (){
+                  onDelete();
+                },
                 icon: const ImageIcon(
                   AssetImage(AppAssets.trashOutlined),
                   color: AppColors.favRed,
