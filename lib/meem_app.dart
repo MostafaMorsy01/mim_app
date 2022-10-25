@@ -10,6 +10,7 @@ import 'package:meem_app/Modules/BottomNavbar/Views/bottom_navbar_view.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/add_to_cart_view_model.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/cart_view_model.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/delete_cart_item_view_model.dart';
+import 'package:meem_app/Modules/Cart/ViewModel/update_cart_view_model.dart';
 import 'package:meem_app/Modules/Home/ViewModel/home_view_model.dart';
 import 'package:meem_app/Modules/Home/Views/home_view.dart';
 import 'package:meem_app/Modules/Products/ViewModel/product_detail_view_model.dart';
@@ -60,6 +61,7 @@ class _MeemAppState extends State<MeemApp> {
   AddToCartViewModel addToCartViewModel = AddToCartViewModel();
   AddToFavouriteViewModel addToFavouriteViewModel = AddToFavouriteViewModel();
   DeleteItemCartViewModel deleteItemCartViewModel = DeleteItemCartViewModel();
+  UpdateCartViewModel updateCartViewModel = UpdateCartViewModel();
   SpecificationViewModel specificationViewModel = SpecificationViewModel();
   CategoriesViewModel categoriesViewModel = CategoriesViewModel();
   VersionCheckService versionCheckService = VersionCheckService();
@@ -131,6 +133,9 @@ class _MeemAppState extends State<MeemApp> {
         ),
         ChangeNotifierProvider.value(
           value: deleteItemCartViewModel,
+        ),
+        ChangeNotifierProvider.value(
+          value: updateCartViewModel,
         ),
 
 

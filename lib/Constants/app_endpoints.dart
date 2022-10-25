@@ -29,6 +29,7 @@ class EndPoints {
 
   // cart end points
   static const String add_cart = '/cart/add/product';
+  static const String update_cart = '/cart/update/item';
   static const String view_cart = '/cart';
   static const String delete_item_cart = '/cart/destroy/item';
 

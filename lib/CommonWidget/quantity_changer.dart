@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 
+import '../Modules/Cart/ViewModel/cart_view_model.dart';
+import '../Modules/Cart/ViewModel/update_cart_view_model.dart';
+
 class QuantityChanger extends StatefulWidget {
-  final int qty;
-  const QuantityChanger({Key? key, required this.qty}) : super(key: key);
+  late int qty;
+  late int id;
+
+  late UpdateCartViewModel updateCartViewModel;
+  late CartViewModel cartViewModel;
+   QuantityChanger({Key? key, required this.qty, required this.id , required this.cartViewModel, required this.updateCartViewModel}) : super(key: key);
 
   @override
   State<QuantityChanger> createState() => _QuantityChangerState();
@@ -34,11 +41,17 @@ class _QuantityChangerState extends State<QuantityChanger> {
               size: 26,
             ),
             onPressed: () {
-              setState(() {
-                if (_counter != 5)
+              setState(() async{
+                if (widget.qty != 5)
                   {
-                    _counter++;
+                    widget.qty++;
+                    bool result = await widget.updateCartViewModel.updateCart(widget.qty, widget.id, context);
+                    if (result){
+                      await widget.cartViewModel
+                          .cartFetchingData(context);
+                    }
                   }
+
 
               });
             },
@@ -68,9 +81,14 @@ class _QuantityChangerState extends State<QuantityChanger> {
               size: 26,
             ),
             onPressed: () {
-              setState(() {
-                if(_counter != 0){
-                  _counter--;
+              setState(() async{
+                if(widget.qty != 0){
+                  widget.qty--;
+                  bool result = await widget.updateCartViewModel.updateCart(widget.qty, widget.id, context);
+                  if (result){
+                    await widget.cartViewModel
+                        .cartFetchingData(context);
+                  }
                 }
 
               });
