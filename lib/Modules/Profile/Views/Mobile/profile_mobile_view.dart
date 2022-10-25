@@ -6,6 +6,8 @@ import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Authentication/authentication_view_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Favourite/View/favourite_list_view.dart';
+
 class ProfileMobileView extends StatefulWidget {
   const ProfileMobileView({Key? key}) : super(key: key);
 
@@ -52,7 +54,9 @@ class _ProfileMobileViewState extends State<ProfileMobileView> {
             ProfileButton(
               img: AppAssets.favBlueFilled,
               text: getTranslated(context, "favorites"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ListFavouriteView()));
+              },
             ),
             ProfileButton(
               img: AppAssets.cardFilled,

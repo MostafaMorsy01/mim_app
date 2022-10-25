@@ -107,7 +107,7 @@ class _ProductsListMobileViewState extends State<ProductsListMobileView> {
                             // if (scrollNotification.metrics.pixels ==
                             //         scrollNotification.metrics.maxScrollExtent &&
                             //     vendorsViewModel!.status != Status.loading) {
-                            //   vendorsViewModel!.fetchVendorsByCategoryID(
+                            //   vendorsView§Model!.fetchVendorsByCategoryID(
                             //       context,
                             //       widget.id,
                             //       authenticationViewModel!.accessToken!,
