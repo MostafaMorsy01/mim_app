@@ -1,19 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:meem_app/CommonWidget/search_bar.dart';
 import 'package:meem_app/Constants/app_assets.dart';
 import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Home/ViewModel/home_view_model.dart';
-import 'package:meem_app/Modules/Products/Views/Mobile/products_list_mobile_view.dart';
 import 'package:meem_app/Modules/Products/Views/products_list_view.dart';
-import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Views/add_product_view.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../Constants/app_enums.dart';
 import '../../../../Constants/app_fonts.dart';
-import '../../../Authentication/authentication_navigations.dart';
 import '../../Widgets/home_carousel_widget.dart';
 
 class HomeMobileView extends StatefulWidget {

@@ -3,6 +3,7 @@ import 'package:meem_app/Constants/app_assets.dart';
 import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
+import 'package:meem_app/Modules/Address/Views/address_list_view.dart';
 import 'package:meem_app/Modules/Authentication/authentication_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +50,9 @@ class _ProfileMobileViewState extends State<ProfileMobileView> {
             ProfileButton(
               img: AppAssets.locationFilled,
               text: getTranslated(context, "my_addresses"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddressListView()));
+              },
             ),
             ProfileButton(
               img: AppAssets.favBlueFilled,

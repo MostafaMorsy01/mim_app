@@ -27,6 +27,9 @@ class EndPoints {
   static const String get_products_details = '/product';
   static const String add_favourite = '/favorite/toggle';
   static const String list_favourite = '/favorite';
+  static const String list_address = '/address';
+  static const String add_address = '/address';
+
 
   // cart end points
   static const String add_cart = '/cart/add/product';

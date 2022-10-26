@@ -34,7 +34,7 @@ class AppValidations {
   static String? validatePhoneNumber(String phoneNumber, BuildContext context) {
     if (phoneNumber.isEmpty) {
       return getTranslated(context, "enter_a_phone_number");
-    } else if (phoneNumber.length != 9) {
+    } else if (phoneNumber.length != 10) {
       return getTranslated(context, "enter_a_valid_phone_number");
     }
     return null;

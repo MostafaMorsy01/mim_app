@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meem_app/Constants/app_assets.dart';
 import 'package:meem_app/Localization/app_localization.dart';
+import 'package:meem_app/Modules/Address/ViewModel/address_view_model.dart';
 import 'package:meem_app/Modules/Authentication/Views/forget_password_view.dart';
 import 'package:meem_app/Modules/Authentication/Views/login_view.dart';
 import 'package:meem_app/Modules/Authentication/Views/phone_verification_view.dart';
@@ -68,6 +69,7 @@ class _MeemAppState extends State<MeemApp> {
   VersionCheckService versionCheckService = VersionCheckService();
   SpAddProductViewModel addProductViewModel = SpAddProductViewModel();
   ListFavouriteViewModel listFavouriteViewModel = ListFavouriteViewModel();
+  AddressViewModel addressViewModel = AddressViewModel();
   late Future myFuture;
 
   @override
@@ -141,6 +143,9 @@ class _MeemAppState extends State<MeemApp> {
         ),
         ChangeNotifierProvider.value(
           value: listFavouriteViewModel,
+        ),
+        ChangeNotifierProvider.value(
+          value: addressViewModel,
         ),
 
 
