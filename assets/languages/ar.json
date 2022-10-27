@@ -140,7 +140,16 @@
     "recently_added_stores": "المتاجر المضافة مؤخرا",
     "new_Address": "اضف عنوان",
     "edit": "تعديل",
-    "delete_btn": "حذف"
+    "delete_btn": "حذف",
+    "name_address": "الاسم",
+    "name_address_error": "ادخل الاسم",
+    "street": "اسم الشارع",
+    "street_error": "ادخل اسم الشارع",
+    "area_address": "اسم المنطقة",
+    "area_address_error": "ادخل اسم المنطقة",
+    "city": "اختر المدينة",
+    "special_mark": "علامة مميزة",
+    "special_mark_error": "ادخل علامة مميزة"
 
 
     

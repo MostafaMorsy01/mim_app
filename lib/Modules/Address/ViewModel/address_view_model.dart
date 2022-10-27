@@ -9,6 +9,7 @@ import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Services/sp_prod
 import '../../../../Constants/app_enums.dart';
 import '../../../../Models/api_response_model.dart';
 import '../../../../Models/user_model.dart';
+import '../../../Models/sp_signup_list_data_model.dart';
 import '../../../Services/check_api_status_service.dart';
 import '../../Products/Model/product_core_model.dart';
 
@@ -18,7 +19,10 @@ class AddressViewModel with ChangeNotifier {
   String? accessToken;
   Status status = Status.success;
   Status secondaryStatus = Status.success;
+  Status secondaryStatus1 = Status.success;
   AddressCoreModel? addressCore;
+  AddAddress? addressCore1;
+  // SpSignupListData? listData;
   String nationalIdAttachemnt = "";
   String? nationalIdAttachemntExtension;
   String accountVerificationAttachemnt = "";
@@ -97,6 +101,7 @@ class AddressViewModel with ChangeNotifier {
       String specialMark,
       BuildContext context,
       ) async {
+
     status = Status.loading;
     notifyListeners();
     try {
@@ -107,13 +112,18 @@ class AddressViewModel with ChangeNotifier {
         "street": street,
         "specific_sign":specialMark,
       };
+      print(body);
       APIResponse response = await webServices.addAddress(body);
       //TODO: Change (Fix the status code problem)
       bool statusCodeCheck = checkStatusCode(context, response);
 
       if (statusCodeCheck) {
         // userId = response.item!;
+        print("success");
+        addressCore1 = AddAddress.fromJson(response.data!);
+        print(addressCore1);
         status = Status.success;
+        print(status);
         notifyListeners();
         return true;
       } else {
@@ -127,4 +137,44 @@ class AddressViewModel with ChangeNotifier {
       return false;
     }
   }
+
+
+  Future<bool> deleteAddress(
+      int address_id,
+      BuildContext context,
+      ) async {
+
+    status = Status.loading;
+    notifyListeners();
+    try {
+      Map<String, dynamic> body = {
+        "address_id": address_id,
+      };
+      print(body);
+      APIResponse response = await webServices.deleteAddress(body);
+      //TODO: Change (Fix the status code problem)
+      bool statusCodeCheck = checkStatusCode(context, response);
+
+      if (statusCodeCheck) {
+        // userId = response.item!;
+        print("success");
+        // addressCore1 = AddAddress.fromJson(response.data!);
+        // print(addressCore1);
+        status = Status.success;
+        print(status);
+        notifyListeners();
+        return true;
+      } else {
+        status = Status.failed;
+        notifyListeners();
+        return false;
+      }
+    } catch (error) {
+      status = Status.failed;
+      notifyListeners();
+      return false;
+    }
+  }
+
+
 }

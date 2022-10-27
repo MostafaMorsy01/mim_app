@@ -29,6 +29,7 @@ class EndPoints {
   static const String list_favourite = '/favorite';
   static const String list_address = '/address';
   static const String add_address = '/address';
+  static const String delete_address = '/address/destroy';
 
 
   // cart end points

@@ -78,12 +78,47 @@ class AddressWebServices {
     try {
       Response response = await Dio().post(EndPoints.baseUrl + EndPoints.add_address,
           data: FormData.fromMap(body), options: Options(
+            headers: {
+              'content-language':'ar',
+              'Accept':'application/json',
+              'Authorization': 'Bearer $_token',
+            },
             validateStatus: (_) {
               return true;
             },
           ));
 
       apiResponse = APIResponse.fromJson(response.data);
+      print(apiResponse);
+      return apiResponse;
+    } catch (error) {
+      return APIResponse.fromJson({
+        "status": 404,
+        "data": null,
+        "message": "something_went_wrong",
+        "item": 0,
+        "validation": []
+      });
+    }
+  }
+
+  Future<APIResponse> deleteAddress(Map<String, dynamic> body) async {
+    APIResponse apiResponse;
+    try {
+      Response response = await Dio().post(EndPoints.baseUrl + EndPoints.delete_address,
+          data: FormData.fromMap(body), options: Options(
+            headers: {
+              'content-language':'ar',
+              'Accept':'application/json',
+              'Authorization': 'Bearer $_token',
+            },
+            validateStatus: (_) {
+              return true;
+            },
+          ));
+
+      apiResponse = APIResponse.fromJson(response.data);
+      print(apiResponse);
       return apiResponse;
     } catch (error) {
       return APIResponse.fromJson({

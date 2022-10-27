@@ -22,3 +22,22 @@ class AddressCoreModel {
     return data;
   }
 }
+
+class AddAddress {
+  Address? address;
+
+  AddAddress({this.address});
+
+  AddAddress.fromJson(Map<String, dynamic> json) {
+    address =
+    json['address'] != null ? new Address.fromJson(json['address']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.address != null) {
+      data['address'] = this.address!.toJson();
+    }
+    return data;
+  }
+}

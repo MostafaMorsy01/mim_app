@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../CommonWidget/title_appbar.dart';
+import '../../../../CommonWidget/toast.dart';
 import '../../../../Constants/app_enums.dart';
 import '../../../../Constants/app_fonts.dart';
 import '../../../../Localization/app_localization.dart';
@@ -29,7 +30,8 @@ class _AddressListMobileViewState extends State<AddressListMobileView> {
   void initState() {
     // TODO: implement initState
     addressViewModel = Provider.of<AddressViewModel>(context, listen: false);
-    authViewModel = Provider.of<AuthenticationViewModel>(context, listen: false);
+    authViewModel =
+        Provider.of<AuthenticationViewModel>(context, listen: false);
 
     Future(() async {
       await addressViewModel.addressFetchingData(context);
@@ -42,6 +44,7 @@ class _AddressListMobileViewState extends State<AddressListMobileView> {
 
   void callThisMethod(bool isVisible) {
     debugPrint('_AddressScreen.callThisMethod: isVisible: ${isVisible}');
+    addressViewModel.addressFetchingData(context);
     // if (isVisible) {
     //   listFavouriteViewModel.FavouriteFetchingData(context);
     // }
@@ -50,6 +53,7 @@ class _AddressListMobileViewState extends State<AddressListMobileView> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    authViewModel = Provider.of<AuthenticationViewModel>(context, listen: true);
     addressViewModel = Provider.of<AddressViewModel>(context, listen: true);
     return VisibilityDetector(
       key: Key(AddressListMobileView.id),
@@ -70,15 +74,16 @@ class _AddressListMobileViewState extends State<AddressListMobileView> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          AddAddressView()
-                  ));
+                      builder: (context) => AddAddressView(
+                            listData: authViewModel.spSignupListData,
+                          )));
             },
           ),
           elevation: 0,
         ),
         body: addressViewModel.secondaryStatus == Status.loading ||
-                addressViewModel.addressCore == null || authViewModel.secondaryStatus == Status.loading
+                addressViewModel.addressCore == null ||
+                authViewModel.secondaryStatus == Status.loading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Column(
@@ -96,7 +101,8 @@ class _AddressListMobileViewState extends State<AddressListMobileView> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Colors.blueGrey, width: 0.4),
+                                              color: Colors.blueGrey,
+                                              width: 0.4),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(
                                                   5.0) //                 <--- border radius here
@@ -107,40 +113,130 @@ class _AddressListMobileViewState extends State<AddressListMobileView> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Text(addressViewModel.addressCore?.address?[index].name ?? "",style: const TextStyle(
-                                              fontFamily: AppFonts.cairoFontRegular, fontSize: 16),),
-                                                  SizedBox(width: 20,),
-                                                  TextButton(onPressed: (){}, child: Text(getTranslated(context, "edit"),style: const TextStyle(
-                                                      fontFamily: AppFonts.cairoFontRegular, fontSize: 20, color: AppColors.primary),)),
-                                                  TextButton(onPressed: (){}, child: Text(getTranslated(context, "delete_btn"),style: const TextStyle(
-                                                      fontFamily: AppFonts.cairoFontRegular, fontSize: 20, color: AppColors.searchBarClearRed),)),
+                                                  Text(
+                                                    addressViewModel
+                                                            .addressCore
+                                                            ?.address?[index]
+                                                            .name ??
+                                                        "",
+                                                    style: const TextStyle(
+                                                        fontFamily: AppFonts
+                                                            .cairoFontRegular,
+                                                        fontSize: 16),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  // TextButton(onPressed: (){}, child: Text(getTranslated(context, "edit"),style: const TextStyle(
+                                                  //     fontFamily: AppFonts.cairoFontRegular, fontSize: 20, color: AppColors.primary),)),
+                                                  TextButton(
+                                                      onPressed: () async {
+                                                        bool result = await addressViewModel
+                                                            .deleteAddress(
+                                                                addressViewModel
+                                                                        .addressCore
+                                                                        ?.address?[
+                                                                            index]
+                                                                        .id ??
+                                                                    0,
+                                                                context);
+                                                        if (result){
+                                                          toastAppSuccess(
+                                                              "Address Deleted Successfully",
+                                                              contest: context);
+                                                          await addressViewModel.addressFetchingData(context);
 
+                                                        } else {
+                                                          toastAppErr(
+                                                              "Address does not Deleted Successfully ",
+                                                              contest: context);
+                                                        }
+                                                      },
+                                                      child: Text(
+                                                        getTranslated(context,
+                                                            "delete_btn"),
+                                                        style: const TextStyle(
+                                                            fontFamily: AppFonts
+                                                                .cairoFontRegular,
+                                                            fontSize: 20,
+                                                            color: AppColors
+                                                                .searchBarClearRed),
+                                                      )),
                                                 ],
                                               ),
-                                              Text(addressViewModel.addressCore?.address?[index].city ?? "",style: const TextStyle(
-                                                  fontFamily: AppFonts.cairoFontRegular, fontSize: 16),),
-                                              Text(addressViewModel.addressCore?.address?[index].area ?? "",style: const TextStyle(
-                                                  fontFamily: AppFonts.cairoFontRegular, fontSize: 16),),
+                                              Text(
+                                                addressViewModel
+                                                        .addressCore
+                                                        ?.address?[index]
+                                                        .city ??
+                                                    "",
+                                                style: const TextStyle(
+                                                    fontFamily: AppFonts
+                                                        .cairoFontRegular,
+                                                    fontSize: 16),
+                                              ),
+                                              Text(
+                                                addressViewModel
+                                                        .addressCore
+                                                        ?.address?[index]
+                                                        .area ??
+                                                    "",
+                                                style: const TextStyle(
+                                                    fontFamily: AppFonts
+                                                        .cairoFontRegular,
+                                                    fontSize: 16),
+                                              ),
                                               SizedBox(
-                                                child: Text(addressViewModel.addressCore?.address?[index].specificSign ?? "",style: const TextStyle(
-                                                    fontFamily: AppFonts.cairoFontRegular, fontSize: 16),),
+                                                child: Text(
+                                                  addressViewModel
+                                                          .addressCore
+                                                          ?.address?[index]
+                                                          .specificSign ??
+                                                      "",
+                                                  style: const TextStyle(
+                                                      fontFamily: AppFonts
+                                                          .cairoFontRegular,
+                                                      fontSize: 16),
+                                                ),
                                               ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Text( "السعودية",style: const TextStyle(
-                                                      fontFamily: AppFonts.cairoFontBold, fontSize: 18),),
-                                                  Text( addressViewModel.addressCore?.address?[index].isPrimary == 1 ? "(الافتراضي)" : "",style: const TextStyle(
-                                                      fontFamily: AppFonts.cairoFontBold, fontSize: 18),),
+                                                  Text(
+                                                    "السعودية",
+                                                    style: const TextStyle(
+                                                        fontFamily: AppFonts
+                                                            .cairoFontBold,
+                                                        fontSize: 18),
+                                                  ),
+                                                  Text(
+                                                    addressViewModel
+                                                                .addressCore
+                                                                ?.address?[
+                                                                    index]
+                                                                .isPrimary ==
+                                                            1
+                                                        ? "(الافتراضي)"
+                                                        : "",
+                                                    style: const TextStyle(
+                                                        fontFamily: AppFonts
+                                                            .cairoFontBold,
+                                                        fontSize: 18),
+                                                  ),
                                                 ],
                                               )
-
                                             ],
                                           ),
                                         ),
