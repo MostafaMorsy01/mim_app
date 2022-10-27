@@ -149,7 +149,10 @@
     "area_address_error": "ادخل اسم المنطقة",
     "city": "اختر المدينة",
     "special_mark": "علامة مميزة",
-    "special_mark_error": "ادخل علامة مميزة"
+    "special_mark_error": "ادخل علامة مميزة",
+    "payment_title" : "اختر طريقة الدفع المناسبة لك",
+    "cash_payment" : "دفع نقدا",
+    "complete_payment": "التالي"
 
 
     

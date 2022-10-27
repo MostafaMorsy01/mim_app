@@ -11,10 +11,12 @@ import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/cart_view_model.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/delete_cart_item_view_model.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/update_cart_view_model.dart';
+import 'package:meem_app/Modules/Order/Views/Mobile/order_payment_method_mobile_view.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../Constants/app_enums.dart';
+import '../../../Order/Views/order_payment_method_view.dart';
 
 class MyCartMobileView extends StatefulWidget {
   const MyCartMobileView({Key? key}) : super(key: key);
@@ -260,7 +262,9 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
                   MainButton(
                     text: getTranslated(context, "complete_purchase"),
                     width: deviceSize.width * 0.9,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new OrderPaymentView()));
+                    },
                   ),
                   const SizedBox(
                     height: 30,

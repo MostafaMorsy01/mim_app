@@ -31,6 +31,12 @@ class EndPoints {
   static const String add_address = '/address';
   static const String delete_address = '/address/destroy';
 
+  // order end points
+  static const String place_order = '/order/place';
+  static const String order_summary = '/order';
+
+
+
 
   // cart end points
   static const String add_cart = '/cart/add/product';
