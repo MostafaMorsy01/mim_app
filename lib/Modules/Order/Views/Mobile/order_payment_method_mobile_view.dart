@@ -6,6 +6,8 @@ import '../../../../Constants/app_fonts.dart';
 import '../../../../Localization/app_localization.dart';
 import '../../../Authentication/Widgets/selectable_circle_widget.dart';
 import '../../../BottomNavbar/Views/bottom_navbar_view.dart';
+import '../order_address_view.dart';
+import 'order_address_mobile_view.dart';
 
 class OrderPaymentMobileView extends StatefulWidget {
   const OrderPaymentMobileView({Key? key}) : super(key: key);
@@ -59,13 +61,13 @@ class _OrderPaymentMobileViewState extends State<OrderPaymentMobileView> {
                   ),
                 ),
                 SizedBox(
-                  height: deviceSize.height * 0.4,
+                  height: deviceSize.height * 0.5,
                 ),
                 MainButton(
                   text: getTranslated(context, "complete_payment"),
                   width: deviceSize.width * 0.9,
                   onPressed: () {
-                    // Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new OrderPaymentView()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => OrderAddressView(payment_id: 1,) ));
                   },
                 ),
                 const SizedBox(

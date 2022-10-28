@@ -29,6 +29,7 @@ import '../Constants/app_constants.dart';
 import '../Services/version_check_service.dart';
 import 'Modules/Authentication/Views/signup_view.dart.dart';
 import 'Modules/Authentication/authentication_view_model.dart';
+import 'Modules/Order/ViewModel/order_view_model.dart';
 import 'Modules/Products/ViewModel/product_view_model.dart';
 import 'Modules/Products/Views/products_list_view.dart';
 import 'Modules/Service Provider/Authentication/sp_authentication_view_model.dart';
@@ -70,6 +71,8 @@ class _MeemAppState extends State<MeemApp> {
   SpAddProductViewModel addProductViewModel = SpAddProductViewModel();
   ListFavouriteViewModel listFavouriteViewModel = ListFavouriteViewModel();
   AddressViewModel addressViewModel = AddressViewModel();
+  OrderViewModel orderViewModel = OrderViewModel();
+
   late Future myFuture;
 
   @override
@@ -146,6 +149,9 @@ class _MeemAppState extends State<MeemApp> {
         ),
         ChangeNotifierProvider.value(
           value: addressViewModel,
+        ),
+        ChangeNotifierProvider.value(
+          value: orderViewModel,
         ),
 
 

@@ -152,7 +152,9 @@
     "special_mark_error": "ادخل علامة مميزة",
     "payment_title" : "اختر طريقة الدفع المناسبة لك",
     "cash_payment" : "دفع نقدا",
-    "complete_payment": "التالي"
+    "complete_payment": "التالي",
+    "order_review" : "مراجعة الطلب",
+    "order_complete" : "اكتمال الطلب"
 
 
     

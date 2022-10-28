@@ -16,7 +16,7 @@ import '../../../Services/check_api_status_service.dart';
 import '../../Products/Model/product_core_model.dart';
 
 
-class orderViewModel with ChangeNotifier {
+class OrderViewModel with ChangeNotifier {
   User? user;
   String? accessToken;
   Status status = Status.success;
