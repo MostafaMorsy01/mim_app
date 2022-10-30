@@ -74,8 +74,13 @@ class OrderWebServices {
     }
   }
 
-  Future<APIResponse> orderSummary(Map<String, dynamic> body) async {
+  Future<APIResponse?> orderSummary(Map<String, dynamic> body) async {
     APIResponse apiResponse;
+    await SecureStorageService.readByKey("accessToken").then((value) => {
+      _token = value,
+    });
+    print(_token);
+
     try {
       Response response = await Dio().post(EndPoints.baseUrl + EndPoints.order_summary,
           data: FormData.fromMap(body), options: Options(
@@ -87,6 +92,34 @@ class OrderWebServices {
             validateStatus: (_) {
               return true;
             },
+          ));
+
+      print("responseee");
+      print(response.data);
+      apiResponse = APIResponse.fromJson(response.data);
+
+      return apiResponse;
+    } catch (error) {
+      print(error);
+      // return {
+      //   "status": response?.statusCode,
+      //   "data": null,
+      //   "message": "Something went wrong",
+      // };
+    }
+  }
+
+  Future<APIResponse> getPayment() async {
+    APIResponse apiResponse;
+    try {
+      Response response = await Dio().get(EndPoints.baseUrl + EndPoints.payment_method,
+         options: Options(
+            headers: {
+              'content-language':'ar',
+              'Accept':'application/json',
+              'Authorization': 'Bearer $_token',
+            },
+
           ));
 
       apiResponse = APIResponse.fromJson(response.data);
@@ -102,6 +135,5 @@ class OrderWebServices {
       });
     }
   }
-
 
 }

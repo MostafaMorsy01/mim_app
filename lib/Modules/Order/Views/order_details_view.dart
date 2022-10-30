@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../Model/order_summry_core_model.dart';
 import 'Mobile/order_address_mobile_view.dart';
 import 'Mobile/order_details_mobile_view.dart';
 import 'Mobile/order_payment_method_mobile_view.dart';

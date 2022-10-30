@@ -34,6 +34,8 @@ class EndPoints {
   // order end points
   static const String place_order = '/order/place';
   static const String order_summary = '/order';
+  static const String payment_method = '/store/payments';
+
 
 
 

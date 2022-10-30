@@ -263,7 +263,11 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
                     text: getTranslated(context, "complete_purchase"),
                     width: deviceSize.width * 0.9,
                     onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new OrderPaymentView()));
+                      print("carttt");
+                      print(cartViewModel.cartCore?.cartItem?.length);
+                      if(cartViewModel.cartCore?.cartItem?.length != null){
+                        Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new OrderPaymentView()));
+                      }
                     },
                   ),
                   const SizedBox(

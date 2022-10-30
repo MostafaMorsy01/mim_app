@@ -58,40 +58,7 @@ class AddressViewModel with ChangeNotifier {
       print("erorrrrrr");
     }
 
-    // try {
-    //   print("start");
-    //   APIResponse? response = await webServices.fetchHomeData();
-    //   print("message");
-    //   print(response?.message);
-    //   if(response?.message == "Home") {
-    //       homeCore = HomeCoreModel.fromJson(response?.data);
-    //       print(homeCore);
-    //       print("done");
-    //       print(secondaryStatus);
-    //       secondaryStatus = Status.success;
-    //       notifyListeners();
-    //   } else {
-    //     print("erorrrrrr");
-    //   }
-    //   // print(response['status']);
-    //   // if (response['message'] == "Success") {
-    //   //   homeCore = HomeCoreModel.fromJson(response['data']);
-    //   //   print(homeCore);
-    //   //   print("done");
-    //   //   print(secondaryStatus);
-    //   //   secondaryStatus = Status.success;
-    //   //   notifyListeners();
-    //   // } else if (response['status'] == 400) {
-    //   //   secondaryStatus = Status.failed;
-    //   //   notifyListeners();
-    //   // } else {
-    //   //   secondaryStatus = Status.failed;
-    //   //   notifyListeners();
-    //   // }
-    // } catch (e, stack) {
-    //   secondaryStatus = Status.failed;
-    //   notifyListeners();
-    // }
+
   }
   Future<bool> addAddress(
       String name,

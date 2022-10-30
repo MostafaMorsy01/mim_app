@@ -4,6 +4,7 @@ import 'package:meem_app/Modules/Address/Model/address_core_model.dart';
 import 'package:meem_app/Modules/Address/Service/address_web_service.dart';
 import 'package:meem_app/Modules/Favourite/Service/list_favourite_web_service.dart';
 import 'package:meem_app/Modules/Order/Model/order_summry_core_model.dart';
+import 'package:meem_app/Modules/Order/Model/payment_method_core_model.dart';
 import 'package:meem_app/Modules/Order/Service/order_web_service.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Model/Sp_Product_core_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Services/sp_products_web_services.dart';
@@ -24,6 +25,7 @@ class OrderViewModel with ChangeNotifier {
   Status secondaryStatus1 = Status.success;
   AddressCoreModel? addressCore;
   AddAddress? addressCore1;
+  PaymentCoreModel? paymentCore;
   // SpSignupListData? listData;
   OrderSummryCoreModel? orderSummryCoreModel;
   String nationalIdAttachemnt = "";
@@ -78,7 +80,7 @@ class OrderViewModel with ChangeNotifier {
   }
 
 
-  Future<bool> orderSummary(
+  Future<void> orderSummary(
       int address_id,
       int payment_type,
       BuildContext context,
@@ -86,35 +88,55 @@ class OrderViewModel with ChangeNotifier {
 
     status = Status.loading;
     notifyListeners();
-    try {
-      Map<String, dynamic> body = {
-        "address_id": address_id,
-        "payment_type_id": payment_type,
-      };
-      print(body);
-      APIResponse response = await webServices.orderSummary(body);
-      //TODO: Change (Fix the status code problem)
-      bool statusCodeCheck = checkStatusCode(context, response);
-
-      if (statusCodeCheck) {
-        // userId = response.item!;
-        print("success");
-        orderSummryCoreModel = OrderSummryCoreModel.fromJson(response.data!);
-        // addressCore1 = AddAddress.fromJson(response.data!);
-        // print(addressCore1);
-        status = Status.success;
-        print(status);
-        notifyListeners();
-        return true;
-      } else {
-        status = Status.failed;
-        notifyListeners();
-        return false;
-      }
-    } catch (error) {
-      status = Status.failed;
+    Map<String, dynamic> body = {
+      "address_id": address_id,
+      "payment_type_id": payment_type,
+    };
+    print(body);
+    print("start");
+    APIResponse? response = await webServices.orderSummary(body);
+    print("message");
+    print(response?.status);
+    print(response?.message);
+    print(response?.item);
+    notifyListeners();
+    if (response?.status == 200) {
+      orderSummryCoreModel = OrderSummryCoreModel.fromJson(response?.data);
+      print("dataa");
+      print(orderSummryCoreModel);
+      print("done");
+      print(secondaryStatus);
+      secondaryStatus = Status.success;
       notifyListeners();
-      return false;
+    } else {
+      print("erorrrrrr");
+    }
+  }
+
+
+  Future<void> paymentMethodData(
+      BuildContext context,
+      ) async {
+    print("loading");
+    secondaryStatus = Status.loading;
+    notifyListeners();
+    print("start");
+    APIResponse? response = await webServices.getPayment();
+    print("message");
+    print(response.status);
+    print(response.message);
+    print(response.item);
+    notifyListeners();
+    if (response.status == 200) {
+      paymentCore = PaymentCoreModel.fromJson(response.data!);
+      print("dataa");
+      print(addressCore);
+      print("done");
+      print(secondaryStatus);
+      secondaryStatus = Status.success;
+      notifyListeners();
+    } else {
+      print("erorrrrrr");
     }
   }
 

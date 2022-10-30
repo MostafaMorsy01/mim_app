@@ -15,6 +15,7 @@ class AppAssets {
   static const String lockFilled = "assets/images/lock_filled.png";
   static const String lockOutlined = "assets/images/lock_outlined.png";
   static const String logo = "assets/images/logo.png";
+  static const String order_success = "assets/images/order_success.png";
   static const String messageOutlined = "assets/images/message_outlined.png";
   static const String messageFilled = "assets/images/message_filled.png";
   static const String messagesFilled = "assets/images/messages_filled.png";

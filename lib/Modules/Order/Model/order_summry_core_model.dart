@@ -7,8 +7,8 @@ class OrderSummryCoreModel {
 
   OrderSummryCoreModel({this.orderItem, this.address, this.paymentType});
 
-  OrderSummryCoreModel.fromJson(Map<String, dynamic> json) {
-    if (json['order_item'] != null) {
+  OrderSummryCoreModel.fromJson(Map<String, dynamic>? json) {
+    if (json!['order_item'] != null) {
       orderItem = <OrderItem>[];
       json['order_item'].forEach((v) {
         orderItem!.add(new OrderItem.fromJson(v));
