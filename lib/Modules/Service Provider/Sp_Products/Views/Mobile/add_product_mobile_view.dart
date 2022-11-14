@@ -567,44 +567,33 @@ class _AddProductMobileViewState extends State<AddProductMobileView> {
                                       //     : Container(),
                                       SizedBox(
                                         height: deviceSize.height * 0.084,
-                                        child: Expanded(
-                                          flex: 1,
-                                          child:
-                                          // addProductViewModel.status == Status.loading
-                                          //     ? const CircularProgressIndicator(
-                                          //   color: AppColors.primary,
-                                          // )
-                                          //     :
-                                          MainButton(
-                                              onPressed: () async {
-                                               if (_formKey.currentState!.validate()) {
-                                                  bool result = await addProductViewModel.spAddProductStore(
-                                                      nameProductController.text.toString(),
-                                                    nameArProductController.text.toString(),
-                                                    descriptionProductController.text.toString(),
-                                                    int.parse(priceProductController.text),
-                                                    int.parse(qtyProductController.text),
-                                                      int.parse(selectedValue!) ,
-                                                    selectedIndexes,
-                                                      context);
-                                                  if (result) {
-                                                    toastAppSuccess(
-                                                        "Product Added To cart Successfully",
-                                                        contest: context);
-                                                  } else {
-                                                    toastAppErr(
-                                                        "Product does not add to Store",
-                                                        contest: context);
-                                                  }
-
-
+                                        child: MainButton(
+                                            onPressed: () async {
+                                             if (_formKey.currentState!.validate()) {
+                                                bool result = await addProductViewModel.spAddProductStore(
+                                                    nameProductController.text.toString(),
+                                                  nameArProductController.text.toString(),
+                                                  descriptionProductController.text.toString(),
+                                                  int.parse(priceProductController.text),
+                                                  int.parse(qtyProductController.text),
+                                                    int.parse(selectedValue!) ,
+                                                  selectedIndexes,
+                                                    context);
+                                                if (result) {
+                                                  toastAppSuccess(
+                                                      "Product Added To cart Successfully",
+                                                      contest: context);
+                                                } else {
+                                                  toastAppErr(
+                                                      "Product does not add to Store",
+                                                      contest: context);
                                                 }
-                                              },
-                                              text: getTranslated(context, "add_product"),
-                                              width: deviceSize.width * 0.9),
 
 
-                                        ),
+                                              }
+                                            },
+                                            text: getTranslated(context, "add_product"),
+                                            width: deviceSize.width * 0.9),
                                       ),
                                     ],
                                   )),

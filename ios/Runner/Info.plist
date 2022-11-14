@@ -32,6 +32,8 @@
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Explain why your app uses music</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App requires access to your camera to take a photo for your product</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Explain why your app uses photo library</string>
 	<key>UIBackgroundModes</key>

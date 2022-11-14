@@ -224,43 +224,40 @@ class _AddAddressMobileViewState extends State<AddAddressMobileView> {
                         children: [
                           SizedBox(
                             height: deviceSize.height * 0.084,
-                            child: Expanded(
-                              flex: 1,
-                              child: addressViewModel.status == Status.loading
-                                  ? Center(
-                                      child: const CircularProgressIndicator(
-                                          color: AppColors.primary))
-                                  : MainButton(
-                                      onPressed: () async {
-                                        if (_formKey.currentState!.validate() &&
-                                            selectedValue != "") {
-                                          bool result =
-                                              await addressViewModel.addAddress(
-                                                  nameController.text
-                                                      .toString(),
-                                                  areaController.text
-                                                      .toString(),
-                                                  int.parse(selectedValue!),
-                                                  streetController.text
-                                                      .toString(),
-                                                  specialMarkController.text
-                                                      .toString(),
-                                                  context);
-                                          if (result) {
-                                            toastAppSuccess(
-                                                "Address Added Successfully",
-                                                contest: context);
-                                          } else {
-                                            toastAppErr(
-                                                "Address does not add Successfully ",
-                                                contest: context);
-                                          }
+                            child: addressViewModel.status == Status.loading
+                                ? Center(
+                                    child: const CircularProgressIndicator(
+                                        color: AppColors.primary))
+                                : MainButton(
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate() &&
+                                          selectedValue != "") {
+                                        bool result =
+                                            await addressViewModel.addAddress(
+                                                nameController.text
+                                                    .toString(),
+                                                areaController.text
+                                                    .toString(),
+                                                int.parse(selectedValue!),
+                                                streetController.text
+                                                    .toString(),
+                                                specialMarkController.text
+                                                    .toString(),
+                                                context);
+                                        if (result) {
+                                          toastAppSuccess(
+                                              "Address Added Successfully",
+                                              contest: context);
+                                        } else {
+                                          toastAppErr(
+                                              "Address does not add Successfully ",
+                                              contest: context);
                                         }
-                                      },
-                                      text:
-                                          getTranslated(context, "new_Address"),
-                                      width: deviceSize.width * 0.9),
-                            ),
+                                      }
+                                    },
+                                    text:
+                                        getTranslated(context, "new_Address"),
+                                    width: deviceSize.width * 0.9),
                           ),
                         ],
                       )),
