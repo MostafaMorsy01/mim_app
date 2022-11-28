@@ -9,6 +9,7 @@ import 'package:meem_app/Modules/Profile/ProfileEdit/Views/update_profile_view.d
 import 'package:provider/provider.dart';
 
 import '../../../Favourite/View/favourite_list_view.dart';
+import '../../Complaint/Views/complaint_view.dart';
 
 class ProfileMobileView extends StatefulWidget {
   const ProfileMobileView({Key? key}) : super(key: key);
@@ -64,20 +65,13 @@ class _ProfileMobileViewState extends State<ProfileMobileView> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ListFavouriteView()));
               },
             ),
-            ProfileButton(
-              img: AppAssets.cardFilled,
-              text: getTranslated(context, "payment_methods"),
-              onPressed: () {},
-            ),
-            ProfileButton(
-              img: AppAssets.messageFilled,
-              text: getTranslated(context, "store_chats"),
-              onPressed: () {},
-            ),
+
             ProfileButton(
               img: AppAssets.messagesFilled,
               text: getTranslated(context, "complaints"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ComplaintView()));
+              },
             ),
             Row(
               children: [

@@ -248,6 +248,7 @@ class _AddAddressMobileViewState extends State<AddAddressMobileView> {
                                           toastAppSuccess(
                                               "Address Added Successfully",
                                               contest: context);
+                                          Navigator.pop(context);
                                         } else {
                                           toastAppErr(
                                               "Address does not add Successfully ",

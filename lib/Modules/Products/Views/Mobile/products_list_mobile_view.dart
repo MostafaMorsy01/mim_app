@@ -71,31 +71,7 @@ class _ProductsListMobileViewState extends State<ProductsListMobileView> {
                             fontSize: 18),
                       ),
                       const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 18, vertical: 20),
-                        decoration: BoxDecoration(
-                            color: AppColors.secondary.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(13)),
-                        child: Row(
-                          children: [
-                            const ImageIcon(
-                              AssetImage(AppAssets.messageOutlined),
-                              color: AppColors.primary,
-                            ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              getTranslated(context, "chat_with_the_store"),
-                              style: const TextStyle(
-                                  fontFamily: AppFonts.cairoFontSemiBold,
-                                  fontSize: 17,
-                                  color: AppColors.primary),
-                            ),
-                          ],
-                        ),
-                      )
+
                     ],
                   ),
                 ),

@@ -50,6 +50,7 @@ class EndPoints {
   static const String signUp = '/signUp';
   static const String login = '/login';
   static const String changePassword = '/changePassword';
+  static const String makeComplaint = '/complain';
 
   static const String checkResetPasswordCode = '/checkResetPasswordCode';
   static const String logout = '/logout';
