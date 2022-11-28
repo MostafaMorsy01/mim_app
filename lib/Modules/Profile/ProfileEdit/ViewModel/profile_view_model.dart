@@ -8,6 +8,7 @@ import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Services/sp_prod
 import '../../../../Constants/app_enums.dart';
 import '../../../../Models/api_response_model.dart';
 import '../../../../Models/user_model.dart';
+import '../../../../Services/check_api_status_service.dart';
 import '../../../Favourite/Model/favourite_core_model.dart';
 import '../Services/profile_view_web_service.dart';
 
@@ -90,5 +91,48 @@ class ProfileViewModel with ChangeNotifier {
     //   secondaryStatus = Status.failed;
     //   notifyListeners();
     // }
+  }
+
+  Future<bool> editProfileInfo(
+      String email,
+      String phone,
+      String name,
+
+      BuildContext context,
+      ) async {
+    print("loading");
+    status = Status.loading;
+    notifyListeners();
+    try {
+      status = Status.success;
+      print("success");
+      notifyListeners();
+      Map<String, String> body = {
+        "email": email,
+        "phone": phone,
+        "name": name,
+
+      };
+      print("go to service");
+      APIResponse response = await webServices.editProfileInfo(
+          body
+      );
+      bool statusCodeCheck = checkStatusCode(context, response);
+
+      if (statusCodeCheck) {
+        // userId = response.item!;
+        status = Status.success;
+        notifyListeners();
+        return true;
+      } else {
+        status = Status.failed;
+        notifyListeners();
+        return false;
+      }
+    } catch (error) {
+      status = Status.failed;
+      notifyListeners();
+      return false;
+    }
   }
 }

@@ -37,6 +37,10 @@ class AppAssets {
   static const String logoutIcon = "assets/images/logout.png";
   static const String globalIcon = "assets/images/global.png";
 
+  static const String emailIcon = "assets/images/email.png";
+  static const String phoneIcon = "assets/images/phone.png";
+  static const String passwordIcon = "assets/images/password.png";
+
   static const String testZara = "assets/images/test_zara.png";
   static const String testTshirt = "assets/images/test_tshirt.png";
   static const String testShoes = "assets/images/test_shoes.png";
