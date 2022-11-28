@@ -93,7 +93,7 @@ class _ListFavouriteMobileViewState extends State<ListFavouriteMobileView> {
                                       scrollDirection: Axis.vertical,
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 100 / 176,
+                                        childAspectRatio: 100 / 186,
                                         crossAxisCount: 2,
                                       ),
                                       itemBuilder: (context, index) {

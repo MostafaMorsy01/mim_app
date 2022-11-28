@@ -17,6 +17,7 @@ import 'package:meem_app/Modules/Home/ViewModel/home_view_model.dart';
 import 'package:meem_app/Modules/Home/Views/home_view.dart';
 import 'package:meem_app/Modules/Products/ViewModel/product_detail_view_model.dart';
 import 'package:meem_app/Modules/Products/ViewModel/product_favourite_view_model.dart';
+import 'package:meem_app/Modules/Profile/ProfileEdit/ViewModel/profile_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Authentication/Views/signup_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/categories_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/sp_add_product_view_model.dart';
@@ -43,6 +44,7 @@ import 'Modules/Service Provider/Profile/Views/subscription_view.dart';
 
 class MeemApp extends StatefulWidget {
   static BuildContext? contexts;
+
   const MeemApp({Key? key}) : super(key: key);
 
   @override
@@ -50,7 +52,6 @@ class MeemApp extends StatefulWidget {
 }
 
 class _MeemAppState extends State<MeemApp> {
-
   GlobalKey<NavigatorState>? navigatorKey = GlobalKey();
 
   AuthenticationViewModel authenticationViewModel = AuthenticationViewModel();
@@ -60,7 +61,8 @@ class _MeemAppState extends State<MeemApp> {
   SpProductsViewModel sp_productsViewModel = SpProductsViewModel();
   CartViewModel cartViewModel = CartViewModel();
   ProductsViewModel productsViewModel = ProductsViewModel();
-  ProductsDetailsViewModel productsDetailsViewModel = ProductsDetailsViewModel();
+  ProductsDetailsViewModel productsDetailsViewModel =
+      ProductsDetailsViewModel();
   AddToCartViewModel addToCartViewModel = AddToCartViewModel();
   AddToFavouriteViewModel addToFavouriteViewModel = AddToFavouriteViewModel();
   DeleteItemCartViewModel deleteItemCartViewModel = DeleteItemCartViewModel();
@@ -72,6 +74,7 @@ class _MeemAppState extends State<MeemApp> {
   ListFavouriteViewModel listFavouriteViewModel = ListFavouriteViewModel();
   AddressViewModel addressViewModel = AddressViewModel();
   OrderViewModel orderViewModel = OrderViewModel();
+  ProfileViewModel profileViewModel = ProfileViewModel();
 
   late Future myFuture;
 
@@ -153,11 +156,9 @@ class _MeemAppState extends State<MeemApp> {
         ChangeNotifierProvider.value(
           value: orderViewModel,
         ),
-
-
-
-
-
+        ChangeNotifierProvider.value(
+            value: profileViewModel
+        ),
       ],
       child: Consumer<AuthenticationViewModel>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -237,6 +238,7 @@ class SplachScreen extends StatefulWidget {
 
 class _SplachScreenState extends State<SplachScreen> {
   late VersionCheckService versionCheckService;
+
   @override
   void initState() {
     versionCheckService =

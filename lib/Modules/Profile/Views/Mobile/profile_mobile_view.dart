@@ -5,6 +5,7 @@ import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Address/Views/address_list_view.dart';
 import 'package:meem_app/Modules/Authentication/authentication_view_model.dart';
+import 'package:meem_app/Modules/Profile/ProfileEdit/Views/update_profile_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Favourite/View/favourite_list_view.dart';
@@ -40,7 +41,9 @@ class _ProfileMobileViewState extends State<ProfileMobileView> {
             ProfileButton(
               img: AppAssets.profileFilled,
               text: getTranslated(context, "profile"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateProfileView()));
+              },
             ),
             ProfileButton(
               img: AppAssets.bagFilled,
