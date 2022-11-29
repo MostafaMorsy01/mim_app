@@ -5,6 +5,7 @@ import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Home/ViewModel/home_view_model.dart';
 import 'package:meem_app/Modules/Products/Views/products_list_view.dart';
+import 'package:meem_app/Modules/Products/Views/products_store_view.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -93,6 +94,7 @@ class _HomeMobileViewState extends State<HomeMobileView> {
                               const SizedBox(
                                 width: 5,
                               ),
+
                               ...List.generate(
                                 homeViewModel
                                     .homeCore!.homeFeatureCategory!.length,
@@ -102,11 +104,13 @@ class _HomeMobileViewState extends State<HomeMobileView> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ProductsListView(
-                                                  productId: homeViewModel
-                                                      .homeCore!
-                                                      .homeFeatureCategory![index]
-                                                      .id, storeName: homeViewModel.homeCore!.homeFeatureCategory![index].name,)));
+                                                // ProductsListView(
+                                                //   productId: homeViewModel
+                                                //       .homeCore!
+                                                //       .homeFeatureCategory![index]
+                                                //       .id ?? 0, storeName: homeViewModel.homeCore!.homeFeatureCategory![index].name ?? "",)
+                                          ProductsStoreListView(storesCore: homeViewModel.featuredCore?[index].stores )
+                                        ));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(right: 10),

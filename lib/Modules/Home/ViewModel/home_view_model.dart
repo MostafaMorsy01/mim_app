@@ -3,6 +3,7 @@ import 'package:meem_app/Models/HomeModel/HomeCoreModel.dart';
 import 'package:meem_app/Modules/Home/Services/home_web_service.dart';
 
 import '../../../Constants/app_enums.dart';
+import '../../../Models/HomeModel/HomeFeaturedCategoryModel.dart';
 import '../../../Models/api_response_model.dart';
 import '../../../Models/user_model.dart';
 
@@ -12,6 +13,7 @@ class HomeViewModel with ChangeNotifier {
   Status status = Status.success;
   Status secondaryStatus = Status.success;
   HomeCoreModel? homeCore;
+  List<HomeFeaturedCategoryModel>?  featuredCore;
   List<String> commercialRegisterList = [];
   List<String> commercialRegisterListExtensions = [];
   String nationalIdAttachemnt = "";
@@ -36,6 +38,9 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
     if (response?.status == 200) {
       homeCore = HomeCoreModel.fromJson(response?.data);
+      featuredCore = homeCore?.homeFeatureCategory;
+      print("Categories");
+      print(featuredCore);
       print(homeCore);
       print("done");
       print(secondaryStatus);

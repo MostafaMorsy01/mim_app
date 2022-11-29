@@ -28,6 +28,7 @@ class AddToCartWebServices {
         },
       ));
       apiResponse = APIResponse.fromJson(response.data);
+      print(response);
       return apiResponse;
     } catch (error) {
       return APIResponse.fromJson({

@@ -116,26 +116,45 @@ class _ListFavouriteMobileViewState extends State<ListFavouriteMobileView> {
                                               .price ??
                                               0,
                                           onPressedAddToCart: () async {
-                                            bool result =
-                                            await addToCartViewModel
-                                                .addToCart(
-                                                listFavouriteViewModel
-                                                    .favCore!
-                                                    .products![
-                                                index]
-                                                    .id ??
-                                                    0,
-                                                context);
-
-                                            if (result) {
-                                              toastAppSuccess(
-                                                  "Product Added To cart Successfully",
-                                                  contest: context);
-                                            } else {
-                                              toastAppErr(
-                                                  "Product does not add to cart",
-                                                  contest: context);
-                                            }
+                                            // bool result =
+                                            // await addToCartViewModel
+                                            //     .addToCart(
+                                            //     listFavouriteViewModel
+                                            //         .favCore!
+                                            //         .products![
+                                            //     index]
+                                            //         .id ??
+                                            //         0,
+                                            //     context);
+                                            //
+                                            // if (result) {
+                                            //   toastAppSuccess(
+                                            //       "Product Added To cart Successfully",
+                                            //       contest: context);
+                                            // } else {
+                                            //   toastAppErr(
+                                            //       "Product does not add to cart",
+                                            //       contest: context);
+                                            // }
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ProductsDetailsView(
+                                                          productId:
+                                                          listFavouriteViewModel
+                                                              .favCore!
+                                                              .products![
+                                                          index]
+                                                              .id ??
+                                                              0,
+                                                          img: listFavouriteViewModel
+                                                              .favCore!
+                                                              .products![
+                                                          index]
+                                                              .image ??
+                                                              "",
+                                                        )));
                                           },
                                           onPressed: () {
                                             Navigator.push(

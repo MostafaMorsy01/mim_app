@@ -1,3 +1,6 @@
+import 'package:meem_app/Modules/Products/Model/specfication_model.dart';
+import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Model/specification_model.dart';
+
 class ProductDetailModel {
   int? id;
   String? name;
@@ -66,24 +69,24 @@ class ProductDetailModel {
   }
 }
 
-class Specification {
-  String? name;
-  String? value;
-
-  Specification({this.name, this.value});
-
-  Specification.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    value = json['value'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['value'] = this.value;
-    return data;
-  }
-}
+// class Specification {
+//   String? name;
+//   String? value;
+//
+//   Specification({this.name, this.value});
+//
+//   Specification.fromJson(Map<String, dynamic> json) {
+//     name = json['name'];
+//     value = json['value'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['name'] = this.name;
+//     data['value'] = this.value;
+//     return data;
+//   }
+// }
 
 class Images {
   int? id;

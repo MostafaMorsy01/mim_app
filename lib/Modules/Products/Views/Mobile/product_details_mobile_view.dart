@@ -7,12 +7,14 @@ import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Cart/ViewModel/add_to_cart_view_model.dart';
+import 'package:meem_app/Modules/Products/Model/specfication_model.dart';
 import 'package:meem_app/Modules/Products/ViewModel/product_detail_view_model.dart';
 import 'package:meem_app/Modules/Products/ViewModel/product_favourite_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../CommonWidget/toast.dart';
 import '../../../../Constants/app_enums.dart';
+import '../../../Service Provider/Sp_Products/Model/specification_model.dart';
 
 class ProductDetailsMobileView extends StatefulWidget {
   final int productId;
@@ -33,6 +35,11 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
   bool isSelected = false;
   late AddToCartViewModel addToCartViewModel;
   late AddToFavouriteViewModel addToFavouriteViewModel;
+  String? selectedValue;
+  String? selectedSize = "";
+  int? catId;
+  List<int> selectedIndexes = [];
+  List<int> _selectedValues = [];
 
   @override
   void initState() {
@@ -46,11 +53,43 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
       await productsDetailsViewModel.ProductsDetailsFetchingData(
           context, widget.productId);
     });
+    selectedIndexes = _selectedValues;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget SpecialValues(
+        String? name, int? id, bool isSelected, int index, ValuesModel? values) {
+      return InkWell(
+        onTap: () {
+          setState(() {
+            // isSelected = !isSelected;
+            values!.isSelected = !values.isSelected;
+            if (values.isSelected == true) {
+              _selectedValues.add(id!);
+            } else if (values.isSelected == false) {
+              _selectedValues.removeWhere((element) => element == id);
+            }
+            print(_selectedValues);
+          });
+        },
+        child: Container(
+          width: 50,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              color: isSelected ? AppColors.primary : Colors.grey[100]!,
+              shape: BoxShape.rectangle),
+          child: Center(
+            child: Text(
+              name!,
+              style: const TextStyle(
+                  fontFamily: AppFonts.cairoFontRegular, fontSize: 15),
+            ),
+          ),
+        ),
+      );
+    }
     productsDetailsViewModel =
         Provider.of<ProductsDetailsViewModel>(context, listen: true);
     addToCartViewModel = Provider.of<AddToCartViewModel>(context, listen: true);
@@ -202,6 +241,85 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                           color: AppColors.black),
                     ),
                   ),
+                   Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 10.0,
+                                left: 10.0,
+                            right: 10.0),
+                            child: Text(
+                              productsDetailsViewModel.productDetailsCore!.product!.specification![0]
+                                  .name ??
+                                  "",
+                              style: const TextStyle(
+                                  fontFamily:
+                                  AppFonts.cairoFontRegular,
+                                  fontSize: 20),
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
+                            children: [
+
+                               SpecialValues(
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[0].values!.value,
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[0].values!.id,
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification![0].values!.isSelected,
+                                    0,
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[0].values),
+
+                              SizedBox(height: 40),
+
+
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 10.0,
+                                left: 10.0,right: 10.0),
+                            child: Text(
+                              productsDetailsViewModel.productDetailsCore!.product!.specification![1]
+                                  .name ??
+                                  "",
+                              style: const TextStyle(
+                                  fontFamily:
+                                  AppFonts.cairoFontRegular,
+                                  fontSize: 20),
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceEvenly,
+                            children: [
+
+
+                                SpecialValues(
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[1].values!.value,
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[1].values!.id,
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification![1].values!.isSelected,
+                                    1,
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[1].values),
+
+                              SizedBox(height: 40),
+
+
+                            ],
+                          ),
+                        ],
+                      ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 28, 20, 12),
                     alignment: setAlignmnetToCenterStart(context),
@@ -343,7 +461,7 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                           width: deviceSize.width - 40,
                           onPressed: () async {
                             bool result = await addToCartViewModel.addToCart(
-                                widget.productId, context);
+                                widget.productId,selectedIndexes, context);
 
                             if (result) {
                               toastAppSuccess(
