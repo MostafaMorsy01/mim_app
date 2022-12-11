@@ -15,6 +15,7 @@ import 'package:meem_app/Modules/Cart/ViewModel/update_cart_view_model.dart';
 import 'package:meem_app/Modules/Favourite/ViewModel/list_favourite_view_model.dart';
 import 'package:meem_app/Modules/Home/ViewModel/home_view_model.dart';
 import 'package:meem_app/Modules/Home/Views/home_view.dart';
+import 'package:meem_app/Modules/ListOrder/ViewModel/order_list_view_model.dart';
 import 'package:meem_app/Modules/Products/ViewModel/product_detail_view_model.dart';
 import 'package:meem_app/Modules/Products/ViewModel/product_favourite_view_model.dart';
 import 'package:meem_app/Modules/Profile/Complaint/ViewModel/complaint_view_model.dart';
@@ -77,6 +78,7 @@ class _MeemAppState extends State<MeemApp> {
   OrderViewModel orderViewModel = OrderViewModel();
   ProfileViewModel profileViewModel = ProfileViewModel();
   ComplaintViewModel complaintViewModel = ComplaintViewModel();
+  OrderListViewModel orderListViewModel = OrderListViewModel();
 
   late Future myFuture;
 
@@ -163,6 +165,9 @@ class _MeemAppState extends State<MeemApp> {
         ),
         ChangeNotifierProvider.value(
             value: complaintViewModel
+        ),
+        ChangeNotifierProvider.value(
+            value: orderListViewModel
         ),
       ],
       child: Consumer<AuthenticationViewModel>(

@@ -104,12 +104,12 @@ class _OrderDetailsMobileViewState extends State<OrderDetailsMobileView> {
                                                   ),
                                                   borderRadius: BorderRadius.circular(10)),
                                               child: CachedNetworkImage(
-                                                imageUrl: "http://164.92.185.162/public/" + '${orderViewModel.orderSummryCoreModel?.orderItem?[index].product?.image}',
+                                                imageUrl:  '${orderViewModel.orderSummryCoreModel?.orderItem?[index].product?.image}',
                                                 errorWidget: (context, url, _) => Container(
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                        "http://164.92.185.162/public/" + "${orderViewModel.orderSummryCoreModel?.orderItem?[index].product?.image}",
+                                                        "${orderViewModel.orderSummryCoreModel?.orderItem?[index].product?.image}",
                                                       ),
                                                       fit: BoxFit.cover,
                                                     ),

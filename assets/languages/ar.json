@@ -166,6 +166,12 @@
     "complaint": "اضافة شكوي",
     "content": "محتوي الشكوي",
     "enter_content": "ادخل محتوي الشكوي",
-    "complaint_attach": "مرفقات الشكوي"
+    "complaint_attach": "مرفقات الشكوي",
+    "pending": "بانتظار الموافقة",
+    "cancelled": "ملغي",
+    "inprogress": "قيد التنفيذ",
+    "delivered": "تم التوصيل",
+    "order_no": "رقم الطلب #",
+    "order_stat": "حالة الطلب:"
 
 }

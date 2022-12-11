@@ -23,23 +23,36 @@ class AddToCartViewModel with ChangeNotifier {
   int userId = 0;
   bool authenticated = false;
 
+
+
   Future<bool> addToCart(
       int productId,
           List<int> specifications,
+      List<int> values,
       BuildContext context,
 
       ) async {
     status = Status.loading;
     notifyListeners();
+    print(specifications);
+    print(values);
     try {
       Map<String, dynamic> body = {
         "product_id": productId,
-        for (int i = 0; i < specifications.length; i++)
-          "specification_values[$i]": specifications[i].toString(),
+        for (int i = 0; i < values.length; i++)
+            for(int j = 0; j < specifications.length;j++)
+              if(values[i] == 1)
+                "specification_values[${values[i]}]": specifications[0].toString()
+              else
+                "specification_values[${values[i]}]": specifications[j].toString()
+
+        ,
+
+
+
 
       };
-      print(productId);
-      print(specifications);
+      print(body);
       APIResponse response = await webServices.addToCart(body);
       bool statusCodeCheck = checkStatusCode(context, response);
       if (statusCodeCheck) {

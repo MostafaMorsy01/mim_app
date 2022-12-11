@@ -105,7 +105,7 @@ class _SpMyProductsMobileViewState extends State<SpMyProductsMobileView> {
                                           color: Colors.white,
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                                "http://164.92.185.162/public/" +
+
                                                     sp_productsViewModel
                                                         .spCore!
                                                         .spProducts![index]

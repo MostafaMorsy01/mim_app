@@ -246,7 +246,7 @@ class ProductItemWidget extends StatelessWidget {
                   //   ),
                   // ),
                   child: Image.network(
-                    "http://164.92.185.162/public/" + img,
+                    img,
                     width: 150,
                     height: 150,
                     fit: BoxFit.cover,

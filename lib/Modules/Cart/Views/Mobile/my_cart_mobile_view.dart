@@ -324,12 +324,12 @@ class CartItemWidget extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(10)),
                 child: CachedNetworkImage(
-                  imageUrl: "http://164.92.185.162/public/" + img,
+                  imageUrl:  img,
                   errorWidget: (context, url, _) => Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(
-                          "http://164.92.185.162/public/" + img,
+                           img,
                         ),
                         fit: BoxFit.cover,
                       ),

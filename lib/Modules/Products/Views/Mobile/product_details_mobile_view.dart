@@ -41,8 +41,12 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
   List<int> selectedIndexes = [];
   List<int> _selectedValues = [];
 
+  List<int> selectedSpecIndex = [];
+  List<int> _selectedValuesIndex = [];
+
   @override
   void initState() {
+    print("product id ${widget.productId}");
     addToCartViewModel =
         Provider.of<AddToCartViewModel>(context, listen: false);
     addToFavouriteViewModel =
@@ -54,24 +58,28 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
           context, widget.productId);
     });
     selectedIndexes = _selectedValues;
+    selectedSpecIndex = _selectedValuesIndex;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget SpecialValues(
-        String? name, int? id, bool isSelected, int index, ValuesModel? values) {
+    Widget SpecialValues(String? name, int? spec_id,int? id, bool isSelected, int index,
+        List<ValuesModel>? values) {
       return InkWell(
         onTap: () {
           setState(() {
             // isSelected = !isSelected;
-            values!.isSelected = !values.isSelected;
-            if (values.isSelected == true) {
+            values![index].isSelected = !values[index].isSelected;
+            if (values[index].isSelected == true) {
               _selectedValues.add(id!);
-            } else if (values.isSelected == false) {
+              _selectedValuesIndex.add(spec_id!);
+            } else if (values[index].isSelected == false) {
               _selectedValues.removeWhere((element) => element == id);
+              _selectedValuesIndex.removeWhere((element) => element == spec_id);
             }
             print(_selectedValues);
+            print(_selectedValuesIndex);
           });
         },
         child: Container(
@@ -83,13 +91,15 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
           child: Center(
             child: Text(
               name!,
-              style: const TextStyle(
+              style:  TextStyle(
+                color: isSelected ? Colors.white : Colors.black ,
                   fontFamily: AppFonts.cairoFontRegular, fontSize: 15),
             ),
           ),
         ),
       );
     }
+
     productsDetailsViewModel =
         Provider.of<ProductsDetailsViewModel>(context, listen: true);
     addToCartViewModel = Provider.of<AddToCartViewModel>(context, listen: true);
@@ -103,7 +113,8 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
         elevation: 0,
       ),
       body: productsDetailsViewModel.secondaryStatus == Status.loading ||
-              productsDetailsViewModel.productDetailsCore == null || addToFavouriteViewModel.status == Status.loading
+              productsDetailsViewModel.productDetailsCore == null ||
+              addToFavouriteViewModel.status == Status.loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
@@ -133,7 +144,7 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                             //   AppAssets.testShoes,
                             // ),
                             Image.network(
-                          "http://164.92.185.162/public/" + widget.img,
+                          widget.img,
                           width: deviceSize.width - 50,
                           height: deviceSize.height / 4,
                           fit: BoxFit.contain,
@@ -143,25 +154,27 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                         top: 10,
                         right: 25,
                         child: IconButton(
-                          icon:  ImageIcon(
-                            productsDetailsViewModel.productDetailsCore!.product!.isFavorite == 1
-                            ? AssetImage(AppAssets.favRedFilled) :
-                              AssetImage(AppAssets.favRedOutlined),
-
+                          icon: ImageIcon(
+                            productsDetailsViewModel.productDetailsCore!
+                                        .product!.isFavorite ==
+                                    1
+                                ? AssetImage(AppAssets.favRedFilled)
+                                : AssetImage(AppAssets.favRedOutlined),
                             color: AppColors.favRed,
                             size: 28,
                           ),
-                          onPressed: () async{
+                          onPressed: () async {
                             bool result =
-                                await addToFavouriteViewModel
-                                .addToFav(productsDetailsViewModel.productDetailsCore!
-                                .product!.id ??
-                                0,
-                                context);
+                                await addToFavouriteViewModel.addToFav(
+                                    productsDetailsViewModel
+                                            .productDetailsCore!.product!.id ??
+                                        0,
+                                    context);
 
                             if (result) {
-                              await productsDetailsViewModel.ProductsDetailsFetchingData(
-                                  context, widget.productId);
+                              await productsDetailsViewModel
+                                  .ProductsDetailsFetchingData(
+                                      context, widget.productId);
                             }
                           },
                         ),
@@ -241,85 +254,47 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                           color: AppColors.black),
                     ),
                   ),
-                   Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 20,
+                  ...List.generate(
+                    productsDetailsViewModel
+                        .productDetailsCore!.product!.specification!.length,
+                    (item) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
+                          child: Text(
+                            productsDetailsViewModel.productDetailsCore!
+                                    .product!.specification![item].name ??
+                                "",
+                            style: const TextStyle(
+                                fontFamily: AppFonts.cairoFontRegular,
+                                fontSize: 20),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10.0,
-                                bottom: 10.0,
-                                left: 10.0,
-                            right: 10.0),
-                            child: Text(
-                              productsDetailsViewModel.productDetailsCore!.product!.specification![0]
-                                  .name ??
-                                  "",
-                              style: const TextStyle(
-                                  fontFamily:
-                                  AppFonts.cairoFontRegular,
-                                  fontSize: 20),
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
-                            children: [
-
-                               SpecialValues(
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[0].values!.value,
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[0].values!.id,
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification![0].values!.isSelected,
-                                    0,
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[0].values),
-
-                              SizedBox(height: 40),
-
-
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10.0,
-                                bottom: 10.0,
-                                left: 10.0,right: 10.0),
-                            child: Text(
-                              productsDetailsViewModel.productDetailsCore!.product!.specification![1]
-                                  .name ??
-                                  "",
-                              style: const TextStyle(
-                                  fontFamily:
-                                  AppFonts.cairoFontRegular,
-                                  fontSize: 20),
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
-                            children: [
-
-
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ...List.generate(productsDetailsViewModel.productDetailsCore!.product!.specification![item].values!.length, (val) =>
                                 SpecialValues(
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[1].values!.value,
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[1].values!.id,
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification![1].values!.isSelected,
-                                    1,
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[1].values),
+                                productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values![val].value,
+                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[item].id,
+                                productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values![val].id,
+                                productsDetailsViewModel.productDetailsCore!.product!.specification![item].values![val].isSelected,
+                                0,
+                                productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values),),
 
-                              SizedBox(height: 40),
-
-
-                            ],
-                          ),
-                        ],
-                      ),
+                            SizedBox(height: 40),
+                          ],
+                        ),
+                        
+                      ],
+                    ),
+                  ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 28, 20, 12),
                     alignment: setAlignmnetToCenterStart(context),
@@ -359,98 +334,6 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                           fontFamily: AppFonts.cairoFontBold, fontSize: 20),
                     ),
                   ),
-
-                  /// Product Qty
-                  // Container(
-                  //   width: deviceSize.width,
-                  //   margin: const EdgeInsets.symmetric(horizontal: 20),
-                  //   child: Row(
-                  //     children: [
-                  //       Container(
-                  //         alignment: setAlignmnetToCenterStart(context),
-                  //         child: SelectableText(
-                  //           getTranslated(context, "quantity"),
-                  //           textAlign: TextAlign.start,
-                  //           style: const TextStyle(
-                  //               fontFamily: AppFonts.cairoFontSemiBold,
-                  //               fontSize: 15,
-                  //               height: 0.8,
-                  //               color: AppColors.grey162),
-                  //         ),
-                  //       ),
-                  //
-                  //       // const Spacer(),
-                  //       //  SizedBox(
-                  //       //   width: 160,
-                  //       //   child: Row(
-                  //       //     mainAxisAlignment: MainAxisAlignment.center,
-                  //       //     children: [
-                  //       //       const Spacer(),
-                  //       //       Container(
-                  //       //
-                  //       //         // decoration: BoxDecoration(
-                  //       //         //     border: Border.all(
-                  //       //         //       color: AppColors.primary,
-                  //       //         //       width: 2.5,
-                  //       //         //     ),
-                  //       //         //     borderRadius: BorderRadius.circular(5)),
-                  //       //         child: IconButton(
-                  //       //           color: AppColors.primary,
-                  //       //           icon: Icon(
-                  //       //             Icons.add,
-                  //       //             size: 26,
-                  //       //           ),
-                  //       //           onPressed: () {
-                  //       //             setState(() {
-                  //       //               if (_counter != 5)
-                  //       //               {
-                  //       //                 _counter++;
-                  //       //               }
-                  //       //
-                  //       //             });
-                  //       //           },
-                  //       //         ),
-                  //       //       ),
-                  //       //       const Spacer(),
-                  //       //       Text(
-                  //       //         "$_counter",
-                  //       //         style: TextStyle(
-                  //       //           color: AppColors.black,
-                  //       //           fontFamily: AppFonts.cairoFontSemiBold,
-                  //       //           fontSize: 20,
-                  //       //         ),
-                  //       //       ),
-                  //       //       const Spacer(),
-                  //       //       Container(
-                  //       //         // decoration: BoxDecoration(
-                  //       //         //     border: Border.all(
-                  //       //         //       color: AppColors.primary,
-                  //       //         //       width: 2.5,
-                  //       //         //     ),
-                  //       //         //     borderRadius: BorderRadius.circular(5)),
-                  //       //         child: IconButton(
-                  //       //           color: AppColors.primary,
-                  //       //           icon: Icon(
-                  //       //             Icons.remove,
-                  //       //             size: 26,
-                  //       //           ),
-                  //       //           onPressed: () {
-                  //       //             setState(() {
-                  //       //               if(_counter != 1){
-                  //       //                 _counter--;
-                  //       //               }
-                  //       //
-                  //       //             });
-                  //       //           },
-                  //       //         ),
-                  //       //       ),
-                  //       //       const Spacer(),
-                  //       //     ],
-                  //       //   ),
-                  //       // ),
-                  //     ],
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -461,7 +344,7 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                           width: deviceSize.width - 40,
                           onPressed: () async {
                             bool result = await addToCartViewModel.addToCart(
-                                widget.productId,selectedIndexes, context);
+                                widget.productId, selectedIndexes,selectedSpecIndex, context);
 
                             if (result) {
                               toastAppSuccess(
@@ -508,7 +391,7 @@ class ProductImagesWidget extends StatelessWidget {
           border:
               selected ? Border.all(color: AppColors.primary, width: 2) : null,
           image: DecorationImage(
-            image: NetworkImage("http://164.92.185.162/public/" + img),
+            image: NetworkImage(img),
           ),
         ),
       ),

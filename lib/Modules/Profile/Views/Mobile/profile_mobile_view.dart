@@ -9,6 +9,7 @@ import 'package:meem_app/Modules/Profile/ProfileEdit/Views/update_profile_view.d
 import 'package:provider/provider.dart';
 
 import '../../../Favourite/View/favourite_list_view.dart';
+import '../../../ListOrder/Views/order_list_view.dart';
 import '../../Complaint/Views/complaint_view.dart';
 
 class ProfileMobileView extends StatefulWidget {
@@ -49,7 +50,9 @@ class _ProfileMobileViewState extends State<ProfileMobileView> {
             ProfileButton(
               img: AppAssets.bagFilled,
               text: getTranslated(context, "my_orders"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => OrderListView()));
+              },
             ),
             ProfileButton(
               img: AppAssets.locationFilled,
