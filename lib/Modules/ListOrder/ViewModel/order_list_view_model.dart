@@ -46,7 +46,7 @@ class OrderListViewModel with ChangeNotifier {
 
       BuildContext context,
       ) async {
-
+    orderListCoreModel = null;
     status = Status.loading;
     notifyListeners();
     try {
@@ -65,7 +65,7 @@ class OrderListViewModel with ChangeNotifier {
         // addressCore1 = AddAddress.fromJson(response.data!);
         // print(addressCore1);
         status = Status.success;
-        orderListCoreModel = OrderListCoreModel.fromJson(response.data!);
+        orderListCoreModel = OrderListCoreModel.fromJson(response.data);
         print(status);
         notifyListeners();
         return true;

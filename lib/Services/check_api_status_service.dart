@@ -4,8 +4,9 @@ import 'package:meem_app/Constants/app_api_status.dart';
 import 'package:meem_app/Models/api_response_model.dart';
 
 bool checkStatusCode(BuildContext context, APIResponse response) {
-  int statusCode = response.status;
+  int? statusCode = response.status;
   String? message = response.message;
+  List<String>? message1 = response.validation?.cast<String>();
   switch (statusCode) {
     case AppAPIStatus.okStatus:
       return true;
@@ -108,7 +109,7 @@ bool checkStatusCode(BuildContext context, APIResponse response) {
           context: context, message: "Error $statusCode:\n$toDisplay");
       break;
     default:
-      String toDisplay = message ?? "Something Went Wrong";
+      dynamic toDisplay = message1 ?? "Something Went Wrong";
       FlashWidgets.showErrorBar(
           context: context, message: "Error $statusCode:\n$toDisplay");
       break;

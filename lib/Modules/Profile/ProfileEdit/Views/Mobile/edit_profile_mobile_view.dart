@@ -72,8 +72,8 @@ class _EditProfileMobileViewState extends State<EditProfileMobileView> {
                       deviceSize: deviceSize,
                       hint: getTranslated(context, "email"),
                       controller: emailController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.name,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.emailAddress,
                       icon: AppAssets.userTagIcon,
                       validate: (_) {
                         return AppValidations.validateNotEmptyText(
@@ -88,8 +88,8 @@ class _EditProfileMobileViewState extends State<EditProfileMobileView> {
                       deviceSize: deviceSize,
                       hint: getTranslated(context, "phone_number"),
                       controller: phoneController,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.name,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.phone,
                       icon: AppAssets.userTagIcon,
                       validate: (_) {
                         return AppValidations.validateNotEmptyText(

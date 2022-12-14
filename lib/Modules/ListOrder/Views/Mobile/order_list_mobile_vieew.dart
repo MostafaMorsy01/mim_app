@@ -26,6 +26,7 @@ class _OrderListMobileViewState extends State<OrderListMobileView> {
   int _counter = 1;
   bool isSelected = false;
   bool isVisible1 = false;
+  String filterTitle = "my_orders";
   String order_status = "";
 
   @override
@@ -65,8 +66,7 @@ class _OrderListMobileViewState extends State<OrderListMobileView> {
           ),
           elevation: 0,
         ),
-        body: orderListViewModel.secondaryStatus == Status.loading ||
-                orderListViewModel.orderListCoreModel == null
+        body: orderListViewModel.status == Status.loading
             ? Center(
                 child: CircularProgressIndicator(),
               )
@@ -80,7 +80,7 @@ class _OrderListMobileViewState extends State<OrderListMobileView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MainButton1(
-                          text: getTranslated(context, "my_orders"),
+                          text: getTranslated(context, filterTitle),
                           width: deviceSize.width * 0.8,
                           onPressed: () {
                             showModalBottomSheet(
@@ -98,11 +98,14 @@ class _OrderListMobileViewState extends State<OrderListMobileView> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              orderListViewModel.order_status =
-                                                  "pending";
-                                              orderListViewModel
-                                                  .listOrder(context);
-                                              Navigator.pop(context);
+                                              setState(() {
+                                                orderListViewModel
+                                                    .order_status = "pending";
+                                                filterTitle = "pending";
+                                                orderListViewModel
+                                                    .listOrder(context);
+                                                Navigator.pop(context);
+                                              });
                                             },
                                             child: Text(
                                               getTranslated(context, "pending"),
@@ -117,11 +120,15 @@ class _OrderListMobileViewState extends State<OrderListMobileView> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              orderListViewModel.order_status =
-                                                  "inprogress";
-                                              orderListViewModel
-                                                  .listOrder(context);
-                                              Navigator.pop(context);
+                                              setState(() {
+                                                orderListViewModel
+                                                        .order_status =
+                                                    "inprogress";
+                                                filterTitle = "inprogress";
+                                                orderListViewModel
+                                                    .listOrder(context);
+                                                Navigator.pop(context);
+                                              });
                                             },
                                             child: Text(
                                               getTranslated(
@@ -137,11 +144,14 @@ class _OrderListMobileViewState extends State<OrderListMobileView> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              orderListViewModel.order_status =
-                                                  "delivered";
-                                              orderListViewModel
-                                                  .listOrder(context);
-                                              Navigator.pop(context);
+                                              setState(() {
+                                                orderListViewModel.order_status =
+                                                "delivered";
+                                                filterTitle = "delivered";
+                                                orderListViewModel
+                                                    .listOrder(context);
+                                                Navigator.pop(context);
+                                              });
                                             },
                                             child: Text(
                                               getTranslated(
@@ -157,11 +167,14 @@ class _OrderListMobileViewState extends State<OrderListMobileView> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              orderListViewModel.order_status =
-                                                  "cancelled";
-                                              orderListViewModel
-                                                  .listOrder(context);
-                                              Navigator.pop(context);
+                                              setState(() {
+                                                orderListViewModel.order_status =
+                                                "cancelled";
+                                                filterTitle = "cancelled";
+                                                orderListViewModel
+                                                    .listOrder(context);
+                                                Navigator.pop(context);
+                                              });
                                             },
                                             child: Text(
                                               getTranslated(
@@ -188,150 +201,156 @@ class _OrderListMobileViewState extends State<OrderListMobileView> {
                     ...List.generate(
                         orderListViewModel.orderListCoreModel?.order?.length ??
                             0,
-                        (index) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.blueGrey, width: 0.4),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          10.0) //                 <--- border radius here
+                        (index) => orderListViewModel.orderListCoreModel != null
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.blueGrey, width: 0.4),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            10.0) //                 <--- border radius here
+                                        ),
+                                  ),
+                                  height: deviceSize.height * 0.102,
+                                  width: deviceSize.width * 0.85,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              getTranslated(
+                                                      context, "order_no") +
+                                                  "${orderListViewModel.orderListCoreModel?.order?[index].orderNumber ?? ""}",
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  height: 1.6,
+                                                  color: AppColors.black,
+                                                  fontFamily:
+                                                      AppFonts.cairoFontBold,
+                                                  fontSize: 14),
+                                            ),
+                                            Text(
+                                              orderListViewModel
+                                                      .orderListCoreModel
+                                                      ?.order?[index]
+                                                      .createdAt ??
+                                                  "",
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  height: 1.6,
+                                                  color: AppColors.grey135,
+                                                  fontFamily:
+                                                      AppFonts.cairoFontRegular,
+                                                  fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  getTranslated(
+                                                      context, "order_stat"),
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                      height: 1.6,
+                                                      color: AppColors.grey135,
+                                                      fontFamily: AppFonts
+                                                          .cairoFontRegular,
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                  getTranslated(
+                                                      context,
+                                                      orderListViewModel
+                                                              .orderListCoreModel
+                                                              ?.order?[index]
+                                                              .status ??
+                                                          ""),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      height: 1.6,
+                                                      color: orderListViewModel
+                                                                  .orderListCoreModel
+                                                                  ?.order?[
+                                                                      index]
+                                                                  .status ==
+                                                              "pending"
+                                                          ? AppColors
+                                                              .pendingOrange
+                                                          : orderListViewModel
+                                                                      .orderListCoreModel
+                                                                      ?.order?[
+                                                                          index]
+                                                                      .status ==
+                                                                  "inprogress"
+                                                              ? AppColors.fbBlue
+                                                              : orderListViewModel
+                                                                          .orderListCoreModel
+                                                                          ?.order?[
+                                                                              index]
+                                                                          .status ==
+                                                                      "cancelled"
+                                                                  ? AppColors
+                                                                      .declinedRed
+                                                                  : orderListViewModel
+                                                                              .orderListCoreModel
+                                                                              ?.order?[
+                                                                                  index]
+                                                                              .status ==
+                                                                          "delivered"
+                                                                      ? AppColors
+                                                                          .green2
+                                                                      : AppColors
+                                                                          .primary,
+                                                      fontFamily: AppFonts
+                                                          .cairoFontRegular,
+                                                      fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              orderListViewModel
+                                                      .orderListCoreModel
+                                                      ?.order?[index]
+                                                      .storeName ??
+                                                  "",
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  height: 1.6,
+                                                  color: AppColors.black,
+                                                  fontFamily:
+                                                      AppFonts.cairoFontRegular,
+                                                  fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                height: deviceSize.height * 0.102,
-                                width: deviceSize.width * 0.85,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            getTranslated(context, "order_no") +
-                                                "${orderListViewModel.orderListCoreModel?.order?[index].orderNumber ?? ""}",
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                height: 1.6,
-                                                color: AppColors.black,
-                                                fontFamily:
-                                                    AppFonts.cairoFontBold,
-                                                fontSize: 14),
-                                          ),
-                                          Text(
-                                            orderListViewModel
-                                                    .orderListCoreModel
-                                                    ?.order?[index]
-                                                    .createdAt ??
-                                                "",
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                height: 1.6,
-                                                color: AppColors.grey135,
-                                                fontFamily:
-                                                    AppFonts.cairoFontRegular,
-                                                fontSize: 14),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                getTranslated(
-                                                        context, "order_stat")
-                                                   ,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                    height: 1.6,
-                                                    color: AppColors.grey135,
-                                                    fontFamily: AppFonts
-                                                        .cairoFontRegular,
-                                                    fontSize: 14),
-                                              ),
-                                              Text(
-                                                getTranslated(context, orderListViewModel
-                                                    .orderListCoreModel
-                                                    ?.order?[index]
-                                                    .status ??
-                                                    ""),
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    height: 1.6,
-                                                    color: orderListViewModel
-                                                                .orderListCoreModel
-                                                                ?.order?[index]
-                                                                .status ==
-                                                            "pending"
-                                                        ? AppColors
-                                                            .pendingOrange
-                                                        : orderListViewModel
-                                                                    .orderListCoreModel
-                                                                    ?.order?[
-                                                                        index]
-                                                                    .status ==
-                                                                "inprogress"
-                                                            ? AppColors.fbBlue
-                                                            : orderListViewModel
-                                                                        .orderListCoreModel
-                                                                        ?.order?[
-                                                                            index]
-                                                                        .status ==
-                                                                    "cancelled"
-                                                                ? AppColors
-                                                                    .declinedRed
-                                                                : orderListViewModel
-                                                                            .orderListCoreModel
-                                                                            ?.order?[
-                                                                                index]
-                                                                            .status ==
-                                                                        "delivered"
-                                                                    ? AppColors
-                                                                        .green2
-                                                                    : AppColors
-                                                                        .primary,
-                                                    fontFamily: AppFonts
-                                                        .cairoFontRegular,
-                                                    fontSize: 14),
-                                              ),
-                                            ],
-                                          ),
-                                          Text(
-                                            orderListViewModel
-                                                    .orderListCoreModel
-                                                    ?.order?[index]
-                                                    .storeName ??
-                                                "",
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                height: 1.6,
-                                                color: AppColors.black,
-                                                fontFamily:
-                                                    AppFonts.cairoFontRegular,
-                                                fontSize: 15),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ))
+                              )
+                            : Container())
                   ],
                 ),
               ),

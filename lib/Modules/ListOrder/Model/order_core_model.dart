@@ -3,8 +3,8 @@ class OrderListCoreModel {
 
   OrderListCoreModel({this.order});
 
-  OrderListCoreModel.fromJson(Map<String, dynamic> json) {
-    if (json['order'] != null) {
+  OrderListCoreModel.fromJson(Map<String, dynamic>? json) {
+    if (json!['order'] != null) {
       order = <Order>[];
       json['order'].forEach((v) {
         order!.add(new Order.fromJson(v));

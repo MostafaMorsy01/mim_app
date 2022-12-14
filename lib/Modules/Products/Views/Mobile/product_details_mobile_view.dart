@@ -40,7 +40,8 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
   int? catId;
   List<int> selectedIndexes = [];
   List<int> _selectedValues = [];
-
+  int SelectedIndexx1 = -1;
+  int SelectedIndexx2 = -1;
   List<int> selectedSpecIndex = [];
   List<int> _selectedValuesIndex = [];
 
@@ -64,7 +65,7 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
 
   @override
   Widget build(BuildContext context) {
-    Widget SpecialValues(String? name, int? spec_id,int? id, bool isSelected, int index,
+    Widget SpecialValues(String? name,int? id,int? spec_id, bool isSelected, int index,
         List<ValuesModel>? values) {
       return InkWell(
         onTap: () {
@@ -72,14 +73,23 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
             // isSelected = !isSelected;
             values![index].isSelected = !values[index].isSelected;
             if (values[index].isSelected == true) {
+              print(id);
+              print(spec_id);
+              print(index);
               _selectedValues.add(id!);
               _selectedValuesIndex.add(spec_id!);
+              final uniqueNumbers = _selectedValuesIndex.toSet().toList();
+              print("Specifation Id");
+              print(uniqueNumbers);
+
             } else if (values[index].isSelected == false) {
               _selectedValues.removeWhere((element) => element == id);
-              _selectedValuesIndex.removeWhere((element) => element == spec_id);
+              // _selectedValuesIndex.removeWhere((element) => element == spec_id);
             }
+            print("values Id");
             print(_selectedValues);
-            print(_selectedValuesIndex);
+
+            // print(_selectedValuesIndex);
           });
         },
         child: Container(
@@ -276,17 +286,60 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                           ),
                         ),
                         Row(
+                          // direction: Axis.horizontal,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ...List.generate(productsDetailsViewModel.productDetailsCore!.product!.specification![item].values!.length, (val) =>
-                                SpecialValues(
-                                productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values![val].value,
-                                    productsDetailsViewModel.productDetailsCore!.product!.specification?[item].id,
-                                productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values![val].id,
-                                productsDetailsViewModel.productDetailsCore!.product!.specification![item].values![val].isSelected,
-                                0,
-                                productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values),),
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      if (productsDetailsViewModel.productDetailsCore!.product?.specification?[item].id == 1)
+                                      {
+                                        SelectedIndexx1 =  productsDetailsViewModel.productDetailsCore!.product?.specification?[item].values?[val].id ?? 0;
+                                      }
+
+                                      if (productsDetailsViewModel.productDetailsCore!.product?.specification?[item].id == 2)
+                                        {
+                                          SelectedIndexx2 = productsDetailsViewModel.productDetailsCore!.product?.specification?[item].values?[val].id ?? 0;
+                                        }
+                                      print("first value");
+                                      print(SelectedIndexx1);
+                                      print("second value");
+                                      print(SelectedIndexx2);
+
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 8.0),
+                                    child: Container(
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5.0),
+                                          color: SelectedIndexx1 ==  productsDetailsViewModel.productDetailsCore!.product?.specification?[item].values?[val].id || SelectedIndexx2 ==  productsDetailsViewModel.productDetailsCore!.product?.specification?[item].values?[val].id  ? AppColors.primary : Colors.grey[100]!,
+                                          shape: BoxShape.rectangle),
+                                      child: Center(
+                                        child: Text(
+                                          productsDetailsViewModel.productDetailsCore!.product?.specification?[item].values?[val].value ?? "",
+                                          style:  TextStyle(
+                                              color: SelectedIndexx1 ==  productsDetailsViewModel.productDetailsCore!.product?.specification?[item].values?[val].id || SelectedIndexx2 ==  productsDetailsViewModel.productDetailsCore!.product?.specification?[item].values?[val].id  ? Colors.white : Colors.black ,
+                                              fontFamily: AppFonts.cairoFontRegular, fontSize: 15),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+
+                                // SpecialValues(
+                                // productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values![val].value,
+                                //     productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values![val].id,
+                                // productsDetailsViewModel.productDetailsCore!.product!.specification?[item].id,
+                                // productsDetailsViewModel.productDetailsCore!.product!.specification![item].values![val].isSelected,
+                                // val,
+                                // productsDetailsViewModel.productDetailsCore!.product!.specification?[item].values),
+
+                            ),
 
                             SizedBox(height: 40),
                           ],
@@ -344,7 +397,7 @@ class _ProductDetailsMobileViewState extends State<ProductDetailsMobileView> {
                           width: deviceSize.width - 40,
                           onPressed: () async {
                             bool result = await addToCartViewModel.addToCart(
-                                widget.productId, selectedIndexes,selectedSpecIndex, context);
+                                widget.productId, SelectedIndexx1,SelectedIndexx2, context);
 
                             if (result) {
                               toastAppSuccess(
