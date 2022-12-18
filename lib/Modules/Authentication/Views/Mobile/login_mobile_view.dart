@@ -269,8 +269,8 @@ class _LoginMobileViewState extends State<LoginMobileView> {
                       style: const TextStyle(
                           height: 1.6,
                           color: AppColors.primary,
-                          fontFamily: AppFonts.cairoFontLight,
-                          fontSize: 20),
+                          fontFamily: AppFonts.cairoFontMedium,
+                          fontSize: 18),
                     ),
                   ),
                 ),

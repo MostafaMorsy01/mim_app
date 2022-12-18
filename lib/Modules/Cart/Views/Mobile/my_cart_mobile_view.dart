@@ -75,14 +75,15 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
           elevation: 0,
         ),
         body: cartViewModel.secondaryStatus == Status.loading ||
-                cartViewModel.cartCore == null ||
                 deleteItemCartViewModel.secondaryStatus == Status.loading
             ? const Center(child: CircularProgressIndicator())
-            : Column(
+            :  cartViewModel.cartCore != null ?
+        Column(
                 children: [
                   const SizedBox(
                     height: 30,
                   ),
+
                   Expanded(
                     child: NotificationListener<ScrollNotification>(
                       onNotification: (scrollNotification) {
@@ -101,7 +102,8 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
                               //crossAxisSpacing: 10.0,
                               //mainAxisSpacing: 5.0,
                               childAspectRatio: deviceSize.width / 210,
-                              children: List.generate(
+                              children:
+                              List.generate(
                                 cartViewModel.cartCore?.cartItem?.length ?? 0,
                                 (index) {
                                   return CartItemWidget(
@@ -274,7 +276,7 @@ class _MyCartMobileViewState extends State<MyCartMobileView> {
                     height: 30,
                   ),
                 ],
-              ),
+              ) : SizedBox()
       ),
     );
   }

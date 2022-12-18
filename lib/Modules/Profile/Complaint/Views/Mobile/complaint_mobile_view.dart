@@ -256,7 +256,7 @@ class _ComplaintMobileViewState extends State<ComplaintMobileView> {
                       hint: getTranslated(context, "email"),
                       controller: emailController,
                       textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.emailAddress,
                       icon: AppAssets.userTagIcon,
                       validate: (_) {
                         return AppValidations.validateNotEmptyText(

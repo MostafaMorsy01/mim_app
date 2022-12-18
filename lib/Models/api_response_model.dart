@@ -12,10 +12,12 @@ class APIResponse {
     this.data,
   });
 
-  APIResponse.fromJson(Map<String, dynamic> json) {
+  APIResponse.fromJson(Map<String, dynamic>? json) {
 
-    status = json['code'];
-    data = json['data'];
+    status = json!['code'];
+    data = json['data'] ?? {};
+
+    // data = json['data'];
     message = json['message'];
     item = json['item'];
     try {

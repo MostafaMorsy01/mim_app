@@ -26,6 +26,7 @@ class CartViewModel with ChangeNotifier {
   Future<void> cartFetchingData(
       BuildContext context,
       ) async {
+
     print("loading");
     secondaryStatus = Status.loading;
     notifyListeners();

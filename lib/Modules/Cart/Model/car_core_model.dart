@@ -11,11 +11,11 @@ class CartCoreModel {
   CartCoreModel.fromJson(Map<String, dynamic>? json) {
     if (json!['cart_item'] != null) {
       cartItem = <CartItem>[];
-      json!['cart_item'].forEach((v) {
+      json['cart_item'].forEach((v) {
         cartItem!.add(new CartItem.fromJson(v));
       });
     }
-    subTotal = json['sub_total'];
+    subTotal = json!['sub_total'];
     shipmentFees = json['shipment_fees'];
     total = json['total'];
   }
