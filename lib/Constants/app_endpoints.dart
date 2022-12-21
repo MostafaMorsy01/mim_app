@@ -30,6 +30,7 @@ class EndPoints {
   static const String list_address = '/address';
   static const String add_address = '/address';
   static const String delete_address = '/address/destroy';
+  static const String search = '/search';
 
   // order end points
   static const String place_order = '/order/place';

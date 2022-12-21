@@ -55,7 +55,7 @@ class _HomeMobileViewState extends State<HomeMobileView> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           flexibleSpace: const HomeAppBar(),
-          toolbarHeight: 120,
+          toolbarHeight: 70,
           elevation: 0,
         ),
         body: SizedBox(
@@ -474,13 +474,13 @@ class HomeAppBar extends StatelessWidget {
               width: 75,
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          SearchBar(
-            searchcontroller: TextEditingController(),
-            width: deviceSize.width * 0.95,
-          ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          // SearchBar(
+          //   searchcontroller: TextEditingController(),
+          //   width: deviceSize.width * 0.95,
+          // ),
         ],
       )),
     );

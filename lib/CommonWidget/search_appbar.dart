@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:meem_app/CommonWidget/search_bar.dart';
 import 'package:meem_app/Constants/app_colors.dart';
 
-class SearchAppBar extends StatelessWidget {
+class SearchAppBar extends StatefulWidget {
   const SearchAppBar({Key? key}) : super(key: key);
+
+  @override
+  State<SearchAppBar> createState() => _SearchAppBarState();
+}
+
+class _SearchAppBarState extends State<SearchAppBar> {
+
 
   @override
   Widget build(BuildContext context) {

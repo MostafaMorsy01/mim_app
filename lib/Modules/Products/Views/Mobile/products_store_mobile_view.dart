@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:meem_app/Constants/app_colors.dart';
+import 'package:meem_app/Constants/app_enums.dart';
+import 'package:meem_app/Modules/Products/Search/Views/search_store_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../CommonWidget/search_appbar.dart';
 import '../../../../Constants/app_fonts.dart';
+import '../../../../Localization/app_localization.dart';
+import '../../../../Logger/logger.dart';
 import '../../../../Models/HomeModel/HomeFeaturedCategoryModel.dart';
 import '../../../../Models/HomeModel/store_model.dart';
+import '../../ViewModel/product_view_model.dart';
 import '../products_list_view.dart';
 
 class ProductStoreMobileView extends StatefulWidget {
@@ -17,17 +23,117 @@ class ProductStoreMobileView extends StatefulWidget {
 
 class _ProductStoreMobileViewState extends State<ProductStoreMobileView> {
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController searchController = TextEditingController();
+  late ProductsViewModel productsViewModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    productsViewModel = Provider.of<ProductsViewModel>(context, listen: false);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    productsViewModel = Provider.of<ProductsViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        flexibleSpace: const SearchAppBar(),
+        flexibleSpace: Container(
+          padding: EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          color: AppColors.white,
+          child: SafeArea(
+            child: InkWell(
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        SearchStoreView(storesCore: widget.storesCore )
+                    ));
+              },
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: AppColors.primary,
+                      size: 32,
+                    ),
+                    onPressed: () {},
+                  ),
+                   Spacer(),
+                  GestureDetector(
+                    onTap: (){
+                      print("press");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SearchStoreView(storesCore: widget.storesCore )
+                          ));
+                    },
+                    child: SizedBox(
+                      width: deviceSize.width * 0.75,
+                      height: 36,
+                      child: TextField(
+                        onChanged: (val) async {
+                          // setState(() {
+                          //   logger.d(searchController.text);
+                          //   Future(() async {
+                          //     print(val);
+                          //     await productsViewModel.searchForStoreProduct(val,context);
+                          //   });
+                          // });
+                        },
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                searchController.clear();
+                              });
+                            },
+                            icon: Icon(
+                              searchController.text.isNotEmpty
+                                  ? Icons.clear_rounded
+                                  : null,
+                              color: AppColors.searchBarClearRed,
+                            ),
+                          ),
+                          contentPadding: EdgeInsets.zero,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none),
+                          hintText: getTranslated(context, "search"),
+                          hintStyle: const TextStyle(
+                            fontSize: 17,
+                            fontFamily: AppFonts.cairoFontRegular,
+                            color: AppColors.searchBarHint,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: AppColors.searchBarHint,
+                          ),
+                          filled: true,
+                          fillColor: AppColors.searchBarFill,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         elevation: 0,
       ),
-      body: widget.storesCore != null ?
+      body: widget.storesCore != null  ?
       Container(
         child: Column(
           children: [
@@ -124,7 +230,8 @@ class _ProductStoreMobileViewState extends State<ProductStoreMobileView> {
             ),
           ],
         )
-      ) : Center(child: CircularProgressIndicator(color: AppColors.primary,),)
+      ) :
+      Center(child: CircularProgressIndicator(color: AppColors.primary,),)
     );
   }
 }

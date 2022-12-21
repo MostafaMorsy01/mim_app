@@ -16,8 +16,6 @@ class APIResponse {
 
     status = json!['code'];
     data = json['data'] ?? {};
-
-    // data = json['data'];
     message = json['message'];
     item = json['item'];
     try {

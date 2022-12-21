@@ -5,8 +5,8 @@ class StoresModel {
 
   StoresModel({this.id, this.name, this.commerialAttachment});
 
-  StoresModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  StoresModel.fromJson(Map<String, dynamic>? json) {
+    id = json!['id'];
     name = json['name'];
     commerialAttachment = json['commerial_attachment'];
   }
