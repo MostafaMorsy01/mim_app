@@ -1,5 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:meem_app/Modules/Products/Model/store_core_model.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/Views/Mobile/subscription_mobile_view.dart';
 import 'package:provider/provider.dart';
+import 'package:search_page/search_page.dart';
 
 import '../../../../../Constants/app_colors.dart';
 import '../../../../../Constants/app_enums.dart';
@@ -11,7 +16,8 @@ import '../../../ViewModel/product_view_model.dart';
 import '../../../Views/products_list_view.dart';
 
 class SearchStoreMobileView extends StatefulWidget {
-  const SearchStoreMobileView({Key? key, required this.storesCore}) : super(key: key);
+  const SearchStoreMobileView({Key? key, required this.storesCore})
+      : super(key: key);
   final List<StoresModel>? storesCore;
 
   @override
@@ -22,14 +28,19 @@ class _SearchStoreMobileViewState extends State<SearchStoreMobileView> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
   late ProductsViewModel productsViewModel;
+  StoresCoreModel? storesCore1;
 
   @override
   void initState() {
     // TODO: implement initState
     productsViewModel = Provider.of<ProductsViewModel>(context, listen: false);
+    // setState(() {
+    //   storesCore1 = productsViewModel.storeCoreSearch ;
+    // });
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -43,9 +54,7 @@ class _SearchStoreMobileViewState extends State<SearchStoreMobileView> {
             color: AppColors.white,
             child: SafeArea(
               child: InkWell(
-                onTap: (){
-
-                },
+                onTap: () {},
                 child: Row(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -68,7 +77,10 @@ class _SearchStoreMobileViewState extends State<SearchStoreMobileView> {
                             logger.d(searchController.text);
                             Future(() async {
                               print(val);
-                              await productsViewModel.searchForStoreProduct(val,context);
+                            await productsViewModel.searchForStoreProduct(
+                                  val, context);
+                            print("dataaa");
+                            print(productsViewModel.storeCoreSearch?.stores);
                             });
                           });
                         },
@@ -113,7 +125,39 @@ class _SearchStoreMobileViewState extends State<SearchStoreMobileView> {
           ),
           elevation: 0,
         ),
-        body: productsViewModel.status1 == Status.loading ?
+        body:
+
+        // Container(
+        //   child: Column(
+        //     children: [
+        //       productsViewModel.status1 == Status.loading
+        //           ? Center(
+        //               child: CircularProgressIndicator(
+        //                 color: AppColors.primary,
+        //               ),
+        //             )
+        //           : Expanded(
+        //               child: Container(
+        //                 margin: const EdgeInsets.symmetric(
+        //                     horizontal: 15, vertical: 30),
+        //                 child: Center(
+        //                   child: Column(
+        //                     children: [
+        //                       ...List.generate(
+        //                           productsViewModel.storeCoreSearch?.stores?.length ?? 0,
+        //                           (index) {
+        //                             return Text( productsViewModel.storeCoreSearch?.stores?[index].name ?? "mmo");
+        //                           })
+        //                     ],
+        //                   ),
+        //                 ),
+        //               ),
+        //             )
+        //     ],
+        //   ),
+        // )
+
+        productsViewModel.status1 == Status.loading ?
         Center(child: CircularProgressIndicator(color: AppColors.primary,),):
         Container(
             child: Column(
@@ -140,72 +184,72 @@ class _SearchStoreMobileViewState extends State<SearchStoreMobileView> {
                                   childAspectRatio:
                                   ((deviceSize.width * 0.6 - 25) / 180),
                                   children: List.generate(
-                                    productsViewModel.storeCoreSearch.length,
+                                    productsViewModel.storeCoreSearch?.stores?.length ?? 0,
                                         (index) {
-                                      return Container(
-                                        height: 100,
-                                        width: 100,
-                                        color: Colors.redAccent,
-                                      );
-                                      // return InkWell(
-                                      //   onTap: () {
-                                      //     Navigator.push(
-                                      //         context,
-                                      //         MaterialPageRoute(
-                                      //             builder: (context) =>
-                                      //                 ProductsListView(
-                                      //                   productId:productsViewModel.storeCoreSearch[index]
-                                      //                       ?.id ?? 0, storeName: productsViewModel.storeCoreSearch[index]?.name ?? "",)));
-                                      //   },
-                                      //   child: Padding(
-                                      //     padding: const EdgeInsets.only(right: 10),
-                                      //     child: Container(
-                                      //       height: 150,
-                                      //       child: Padding(
-                                      //         padding: const EdgeInsets.symmetric(
-                                      //             horizontal: 15),
-                                      //         child: Center(
-                                      //           child: Column(
-                                      //             children: [
-                                      //               Container(
-                                      //                 height: 100,
-                                      //                 width: 150,
-                                      //                 decoration: BoxDecoration(
-                                      //                   color: Colors.white,
-                                      //                   image: DecorationImage(
-                                      //                     image: NetworkImage(
-                                      //                         productsViewModel.storeCoreSearch[
-                                      //                         index]
-                                      //                             ?.commerialAttachment ?? ""),
-                                      //                     fit: BoxFit.cover,
-                                      //                   ),
-                                      //                   borderRadius:
-                                      //                   BorderRadius.circular(5),
-                                      //                 ),
-                                      //               ),
-                                      //               // Container(
-                                      //               //   decoration: ,
-                                      //               //   child: Image.network(homeViewModel
-                                      //               //       .homeCore!
-                                      //               //       .homeFeatureCategory![index]
-                                      //               //       .image!,fit: BoxFit.fill,height: 100,width: 150,),
-                                      //               // ),
-                                      //               Text(
-                                      //                 productsViewModel.storeCoreSearch[
-                                      //                 index]
-                                      //                     ?.name ?? "mostafa",
-                                      //                 style: const TextStyle(
-                                      //                     fontFamily:
-                                      //                     AppFonts.cairoFontRegular,
-                                      //                     fontSize: 18.0),
-                                      //               ),
-                                      //             ],
-                                      //           ),
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ),
+                                      // return Container(
+                                      //   height: 100,
+                                      //   width: 100,
+                                      //   color: Colors.redAccent,
                                       // );
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProductsListView(
+                                                        productId:productsViewModel.storeCoreSearch?.stores?[index]
+                                                            .id ?? 0, storeName: productsViewModel.storeCoreSearch?.stores?[index].name ?? "",)));
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(right: 10),
+                                          child: Container(
+                                            height: 150,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 15),
+                                              child: Center(
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      height: 100,
+                                                      width: 150,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              productsViewModel.storeCoreSearch?.stores?[
+                                                              index]
+                                                                  .commerialAttachment ?? ""),
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                        borderRadius:
+                                                        BorderRadius.circular(5),
+                                                      ),
+                                                    ),
+                                                    // Container(
+                                                    //   decoration: ,
+                                                    //   child: Image.network(homeViewModel
+                                                    //       .homeCore!
+                                                    //       .homeFeatureCategory![index]
+                                                    //       .image!,fit: BoxFit.fill,height: 100,width: 150,),
+                                                    // ),
+                                                    Text(
+                                                      productsViewModel.storeCoreSearch?.stores?[
+                                                      index]
+                                                          .name ?? "mostafa",
+                                                      style: const TextStyle(
+                                                          fontFamily:
+                                                          AppFonts.cairoFontRegular,
+                                                          fontSize: 18.0),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
                                     },
                                   ),
                                 ),
@@ -219,6 +263,6 @@ class _SearchStoreMobileViewState extends State<SearchStoreMobileView> {
             )
         ) ,
 
-    );
+        );
   }
 }

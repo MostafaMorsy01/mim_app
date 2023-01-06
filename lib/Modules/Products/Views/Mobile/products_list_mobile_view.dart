@@ -7,6 +7,7 @@ import 'package:meem_app/Constants/app_assets.dart';
 import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
+import 'package:meem_app/Modules/Products/Search/Views/search_product_view.dart';
 import 'package:meem_app/Modules/Products/Views/product_details_view.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +52,73 @@ class _ProductsListMobileViewState extends State<ProductsListMobileView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        flexibleSpace: const SearchAppBar(),
+        flexibleSpace: Container(
+          padding: EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          color: AppColors.white,
+          child: SafeArea(
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SearchProductView()));
+              },
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: AppColors.primary,
+                      size: 32,
+                    ),
+                    onPressed: () {},
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SearchProductView()));
+                    },
+                    child: SizedBox(
+                      width: deviceSize.width * 0.75,
+                      height: 36,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.searchBarFill,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.search,
+                              color: AppColors.searchBarHint,
+                            ),
+                            Text(
+                              getTranslated(context, "search"),
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontFamily: AppFonts.cairoFontRegular,
+                                color: AppColors.searchBarHint,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         elevation: 0,
       ),
       body: productsViewModel.secondaryStatus == Status.loading ||

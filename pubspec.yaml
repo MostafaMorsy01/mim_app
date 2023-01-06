@@ -58,6 +58,7 @@ dependencies:
   multi_image_picker_view: ^0.0.6
   multiple_images_picker: ^1.0.1
   visibility_detector: ^0.3.3
+  search_page: ^2.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -15,7 +15,9 @@ import '../products_list_view.dart';
 
 class ProductStoreMobileView extends StatefulWidget {
   final List<StoresModel>? storesCore;
-  const ProductStoreMobileView({Key? key, required this.storesCore}) : super(key: key);
+
+  const ProductStoreMobileView({Key? key, required this.storesCore})
+      : super(key: key);
 
   @override
   State<ProductStoreMobileView> createState() => _ProductStoreMobileViewState();
@@ -39,199 +41,190 @@ class _ProductStoreMobileViewState extends State<ProductStoreMobileView> {
     final deviceSize = MediaQuery.of(context).size;
     productsViewModel = Provider.of<ProductsViewModel>(context, listen: true);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        flexibleSpace: Container(
-          padding: EdgeInsets.only(top: 10),
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          color: AppColors.white,
-          child: SafeArea(
-            child: InkWell(
-              onTap: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        SearchStoreView(storesCore: widget.storesCore )
-                    ));
-              },
-              child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: AppColors.primary,
-                      size: 32,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            padding: EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            color: AppColors.white,
+            child: SafeArea(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SearchStoreView(storesCore: widget.storesCore)));
+                },
+                child: Row(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: AppColors.primary,
+                        size: 32,
+                      ),
+                      onPressed: () {},
                     ),
-                    onPressed: () {},
-                  ),
-                   Spacer(),
-                  GestureDetector(
-                    onTap: (){
-                      print("press");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  SearchStoreView(storesCore: widget.storesCore )
-                          ));
-                    },
-                    child: SizedBox(
-                      width: deviceSize.width * 0.75,
-                      height: 36,
-                      child: TextField(
-                        onChanged: (val) async {
-                          // setState(() {
-                          //   logger.d(searchController.text);
-                          //   Future(() async {
-                          //     print(val);
-                          //     await productsViewModel.searchForStoreProduct(val,context);
-                          //   });
-                          // });
-                        },
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                searchController.clear();
-                              });
-                            },
-                            icon: Icon(
-                              searchController.text.isNotEmpty
-                                  ? Icons.clear_rounded
-                                  : null,
-                              color: AppColors.searchBarClearRed,
-                            ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        print("press");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchStoreView(
+                                    storesCore: widget.storesCore)));
+                      },
+                      child: SizedBox(
+                        width: deviceSize.width * 0.75,
+                        height: 36,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.searchBarFill,
                           ),
-                          contentPadding: EdgeInsets.zero,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: BorderSide.none),
-                          hintText: getTranslated(context, "search"),
-                          hintStyle: const TextStyle(
-                            fontSize: 17,
-                            fontFamily: AppFonts.cairoFontRegular,
-                            color: AppColors.searchBarHint,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Icon(
+                                Icons.search,
+                                color: AppColors.searchBarHint,
+                              ),
+                              Text(
+                                getTranslated(context, "search"),
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: AppFonts.cairoFontRegular,
+                                  color: AppColors.searchBarHint,
+                                ),
+                              ),
+                            ],
                           ),
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            color: AppColors.searchBarHint,
-                          ),
-                          filled: true,
-                          fillColor: AppColors.searchBarFill,
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
+          elevation: 0,
         ),
-        elevation: 0,
-      ),
-      body: widget.storesCore != null  ?
-      Container(
-        child: Column(
-          children: [
-            Expanded(
-              child: NotificationListener<ScrollNotification>(
-                onNotification: (scrollNotification) {
-                  return false;
-                },
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 30),
-                  child: Center(
-                      child: Scrollbar(
-                        controller: _scrollController,
-                        child: CustomScrollView(
+        body: widget.storesCore != null
+            ? Container(
+                child: Column(
+                children: [
+                  Expanded(
+                    child: NotificationListener<ScrollNotification>(
+                      onNotification: (scrollNotification) {
+                        return false;
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 30),
+                        child: Center(
+                            child: Scrollbar(
                           controller: _scrollController,
-                          scrollDirection: Axis.vertical,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          slivers: <Widget>[
-                            SliverGrid.count(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10.0,
-                              mainAxisSpacing: 10.0,
-                              childAspectRatio:
-                              ((deviceSize.width * 0.6 - 25) / 180),
-                              children: List.generate(
-                                widget.storesCore!.length,
-                                    (index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProductsListView(
-                                                    productId: widget.storesCore![index]
-                                                        .id ?? 0, storeName: widget.storesCore![index].name ?? "",)));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Container(
-                                        height: 150,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15),
-                                          child: Center(
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  height: 100,
-                                                  width: 150,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          widget.storesCore![
-                                                          index]
-                                                              .commerialAttachment!),
-                                                      fit: BoxFit.cover,
+                          child: CustomScrollView(
+                            controller: _scrollController,
+                            scrollDirection: Axis.vertical,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            slivers: <Widget>[
+                              SliverGrid.count(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10.0,
+                                mainAxisSpacing: 10.0,
+                                childAspectRatio:
+                                    ((deviceSize.width * 0.6 - 25) / 180),
+                                children: List.generate(
+                                  widget.storesCore!.length,
+                                  (index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductsListView(
+                                                      productId: widget
+                                                              .storesCore![
+                                                                  index]
+                                                              .id ??
+                                                          0,
+                                                      storeName: widget
+                                                              .storesCore![
+                                                                  index]
+                                                              .name ??
+                                                          "",
+                                                    )));
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        child: Container(
+                                          height: 150,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15),
+                                            child: Center(
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                    height: 100,
+                                                    width: 150,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(widget
+                                                            .storesCore![index]
+                                                            .commerialAttachment!),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
                                                     ),
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
                                                   ),
-                                                ),
-                                                // Container(
-                                                //   decoration: ,
-                                                //   child: Image.network(homeViewModel
-                                                //       .homeCore!
-                                                //       .homeFeatureCategory![index]
-                                                //       .image!,fit: BoxFit.fill,height: 100,width: 150,),
-                                                // ),
-                                                Text(
-                                                  widget.storesCore![index]
-                                                      .name!,
-                                                  style: const TextStyle(
-                                                      fontFamily:
-                                                      AppFonts.cairoFontRegular,
-                                                      fontSize: 18.0),
-                                                ),
-                                              ],
+                                                  // Container(
+                                                  //   decoration: ,
+                                                  //   child: Image.network(homeViewModel
+                                                  //       .homeCore!
+                                                  //       .homeFeatureCategory![index]
+                                                  //       .image!,fit: BoxFit.fill,height: 100,width: 150,),
+                                                  // ),
+                                                  Text(
+                                                    widget.storesCore![index]
+                                                        .name!,
+                                                    style: const TextStyle(
+                                                        fontFamily: AppFonts
+                                                            .cairoFontRegular,
+                                                        fontSize: 18.0),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      )),
+                            ],
+                          ),
+                        )),
+                      ),
+                    ),
+                  ),
+                ],
+              ))
+            : Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
                 ),
-              ),
-            ),
-          ],
-        )
-      ) :
-      Center(child: CircularProgressIndicator(color: AppColors.primary,),)
-    );
+              ));
   }
 }

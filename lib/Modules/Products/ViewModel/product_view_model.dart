@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:meem_app/Models/HomeModel/store_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Model/Sp_Product_core_model.dart';
@@ -9,6 +8,7 @@ import '../../../../Models/api_response_model.dart';
 import '../../../../Models/user_model.dart';
 import '../../../Services/check_api_status_service.dart';
 import '../Model/product_core_model.dart';
+import '../Model/store_core_model.dart';
 import '../Services/product_web_service.dart';
 
 class ProductsViewModel with ChangeNotifier {
@@ -19,7 +19,8 @@ class ProductsViewModel with ChangeNotifier {
   Status secondaryStatus = Status.success;
   ProductCoreModel? productCore;
   ProductCoreModel? productCoreSearch;
-  List<StoresModel?> storeCoreSearch = [];
+  StoresCoreModel? storeCoreSearch;
+
   List<String> commercialRegisterList = [];
   List<String> commercialRegisterListExtensions = [];
   String nationalIdAttachemnt = "";
@@ -33,9 +34,9 @@ class ProductsViewModel with ChangeNotifier {
   ProductsWebServices webServices = ProductsWebServices();
 
   Future<void> ProductsFetchingData(
-      BuildContext context,
-      int? productsId,
-      ) async {
+    BuildContext context,
+    int? productsId,
+  ) async {
     print("loading");
     secondaryStatus = Status.loading;
     notifyListeners();
@@ -93,45 +94,61 @@ class ProductsViewModel with ChangeNotifier {
     // }
   }
 
+  Future<void> searchForStoreProduct(
+    String text,
+    BuildContext context,
+  ) async {
+    // productCoreSearch = null;
 
-  Future<bool> searchForStoreProduct(
+    status1 = Status.loading;
+    notifyListeners();
+
+    Map<String, dynamic> body = {"search": text, "type": "store"};
+    print(body);
+    APIResponse? response = await webServices.searchProductsData(body);
+    //TODO: Change (Fix the status code problem)
+    // bool statusCodeCheck = checkStatusCode(context, response!);
+
+    print(response?.status);
+    print(response?.message);
+    if (response?.status == 200) {
+      print(response?.data);
+      storeCoreSearch = StoresCoreModel.fromJson(response?.data);
+      print(storeCoreSearch);
+      status1 = Status.success;
+      notifyListeners();
+    } else {
+      status1 = Status.failed;
+      notifyListeners();
+    }
+  }
+
+  Future<void> searchForProduct(
       String text,
       BuildContext context,
       ) async {
     // productCoreSearch = null;
-    storeCoreSearch = [];
+
     status1 = Status.loading;
     notifyListeners();
-    try {
-      Map<String, dynamic> body = {
-        "search": text,
-        "type":"store"
-      };
-      print(body);
-      APIResponse? response = await webServices.searchProductsData(body);
-      //TODO: Change (Fix the status code problem)
-      bool statusCodeCheck = checkStatusCode(context, response!);
 
-      if (statusCodeCheck) {
-        // userId = response.item!;
-        print("success");
-        // addressCore1 = AddAddress.fromJson(response.data!);
-        // print(addressCore1);
-        status1 = Status.success;
-        storeCoreSearch = StoresModel.fromJson(response.data) as List<StoresModel?>;
-        print(status1);
-        notifyListeners();
-        return true;
-      } else {
-        status1 = Status.failed;
-        notifyListeners();
-        return false;
-      }
-    } catch (error) {
+    Map<String, dynamic> body = {"search": text, "type": "product"};
+    print(body);
+    APIResponse? response = await webServices.searchStoreProductsData(body);
+    //TODO: Change (Fix the status code problem)
+    // bool statusCodeCheck = checkStatusCode(context, response!);
+
+    print(response?.status);
+    print(response?.message);
+    if (response?.status == 200) {
+      print(response?.data);
+      productCoreSearch = ProductCoreModel.fromJson(response?.data);
+      print(productCoreSearch);
+      status1 = Status.success;
+      notifyListeners();
+    } else {
       status1 = Status.failed;
       notifyListeners();
-      return false;
     }
   }
-
 }
