@@ -337,6 +337,50 @@ class _SpSignupWidgetState extends State<SpSignupWidget> {
           const SizedBox(
             height: 30,
           ),
+          SizedBox(
+            width: deviceSize.width * 0.9,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: SelectableText(
+                getTranslated(context, "store_img"),
+                style: const TextStyle(
+                    fontFamily: AppFonts.cairoFontRegular, fontSize: 17.0),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          const Divider(
+            color: AppColors.grey159,
+          ),
+          const SizedBox(
+            height: 5.0,
+          ),
+          DashedButton(
+              onPressed: () async {
+                await authViewModel.pickStoreFiles();
+              },
+              text: getTranslated(context, "upload_pdf"),
+              width: deviceSize.width * 0.9),
+          const SizedBox(
+            height: 15,
+          ),
+          if (authViewModel.storePhotoAttachemnt != "")
+            FileUploadWidget(
+              fileuploadType:
+              authViewModel.storePhotoAttachemntExtension == 'pdf'
+                  ? FileUploadType.pdf
+                  : authViewModel.storePhotoAttachemntExtension == 'jpg'
+                  ? FileUploadType.jpg
+                  : FileUploadType.png,
+              onPressed: () {
+                authViewModel.storePhotoAttachemnt = "";
+                setState(() {});
+              },
+              text: authViewModel.storePhotoAttachemnt.split('/').last,
+              width: deviceSize.width * 0.9,
+            ),
           CustomCheckbox(
             text: getTranslated(context, "verified_account"),
             width: deviceSize.width * 0.9,

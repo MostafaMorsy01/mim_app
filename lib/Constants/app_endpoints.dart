@@ -32,6 +32,11 @@ class EndPoints {
   static const String delete_address = '/address/destroy';
   static const String search = '/search';
 
+  static const String list_payment = "/store/payments";
+  static const String add_payment = "/store/add/payment";
+  static const String list_shipping = "/store/shippingCompanies";
+  static const String add_shipping = "/store/add/shipping";
+
   // order end points
   static const String place_order = '/order/place';
   static const String order_summary = '/order';

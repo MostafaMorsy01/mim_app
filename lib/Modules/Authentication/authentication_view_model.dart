@@ -23,7 +23,9 @@ class AuthenticationViewModel with ChangeNotifier {
   List<String> commercialRegisterList = [];
   List<String> commercialRegisterListExtensions = [];
   String nationalIdAttachemnt = "";
+  String storePhotoAttachemnt = "";
   String? nationalIdAttachemntExtension;
+  String? storePhotoAttachemntExtension;
   String accountVerificationAttachemnt = "";
   String? accountVerificationAttachemntExtension;
   bool isUserSelected = true;
@@ -336,6 +338,7 @@ class AuthenticationViewModel with ChangeNotifier {
 
       APIResponse response = await webServices.spRegisterStore(
           body,
+          storePhotoAttachemnt,
           nationalIdAttachemnt,
           accountVerificationAttachemnt,
           commercialRegisterList);
@@ -383,6 +386,7 @@ class AuthenticationViewModel with ChangeNotifier {
     }
   }
 
+
   Future<void> pickCommercialRegisterFiles() async {
     commercialRegisterList = [];
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -397,6 +401,21 @@ class AuthenticationViewModel with ChangeNotifier {
       notifyListeners();
     } else {
       commercialRegisterList = [];
+      notifyListeners();
+    }
+  }
+  Future<void> pickStoreFiles() async {
+    storePhotoAttachemnt = "";
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['png', 'pdf', 'jpg', 'PNG'],
+    );
+    if (result != null) {
+      storePhotoAttachemnt = result.files.single.path!;
+      storePhotoAttachemntExtension = result.files.single.extension!;
+      notifyListeners();
+    } else {
+      storePhotoAttachemnt = "";
       notifyListeners();
     }
   }

@@ -115,6 +115,7 @@ class AuthenticationWebServices {
   Future<APIResponse> spRegisterStore(
       Map<String, String> body,
       String idAttachment,
+      String storePhotoAttachment,
       String accountAttachment,
       List<String> attachments) async {
     http.Response? response;
@@ -126,6 +127,11 @@ class AuthenticationWebServices {
         request.files.add(http.MultipartFile.fromBytes(
             'id_attachment', File(idAttachment).readAsBytesSync(),
             filename: idAttachment.split('/').last));
+      }
+      if (storePhotoAttachment != "") {
+        request.files.add(http.MultipartFile.fromBytes(
+            'image', File(storePhotoAttachment).readAsBytesSync(),
+            filename: storePhotoAttachment.split('/').last));
       }
       if (accountAttachment != "") {
         request.files.add(http.MultipartFile.fromBytes(
