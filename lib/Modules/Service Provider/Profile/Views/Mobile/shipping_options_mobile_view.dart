@@ -5,6 +5,12 @@ import 'package:meem_app/CommonWidget/title_appbar.dart';
 import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/Model/shipping_method_core_model.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/shipping_view_model.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../../CommonWidget/toast.dart';
+import '../../../../../Constants/app_enums.dart';
 
 class SpShippingOptionsMobileView extends StatefulWidget {
   const SpShippingOptionsMobileView({Key? key}) : super(key: key);
@@ -16,6 +22,20 @@ class SpShippingOptionsMobileView extends StatefulWidget {
 
 class _SpShippingOptionsMobileViewState
     extends State<SpShippingOptionsMobileView> {
+  late ShippingMethodViewModel shippingMethodViewModel;
+  List<ShippingCompany>? selectedShippingMethods = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    shippingMethodViewModel = Provider.of<ShippingMethodViewModel>(context, listen: false);
+
+    Future(() async {
+      await shippingMethodViewModel.shippingMethodData(context);
+    });
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -64,32 +84,68 @@ class _SpShippingOptionsMobileViewState
             const SizedBox(
               height: 15,
             ),
-            CustomCheckbox(
-              text: getTranslated(context, "express"),
-              width: deviceSize.width,
-              onChanged: () {},
-            ),
-            const SizedBox(
-              height: 7,
-            ),
-            CustomCheckbox(
-              text: getTranslated(context, "dhl"),
-              width: deviceSize.width,
-              onChanged: () {},
-            ),
-            const SizedBox(
-              height: 7,
-            ),
-            CustomCheckbox(
-              text: getTranslated(context, "aramex"),
-              width: deviceSize.width,
-              onChanged: () {},
+            shippingMethodViewModel.secondaryStatus == Status.loading ||
+                shippingMethodViewModel.shippingCore == null
+                ? Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primary,
+              ),
+            )
+                : Column(
+              children: [
+                ...List.generate(
+                  shippingMethodViewModel.shippingCore?.shippingCompany?.length ?? 0,
+                      (index) => CustomCheckbox(
+                    text: shippingMethodViewModel
+                        .shippingCore?.shippingCompany?[index].name ??
+                        "",
+                    width: deviceSize.width * 0.9,
+                    checkboxSelected: shippingMethodViewModel
+                        .shippingCore?.shippingCompany?[index].selected ??
+                        false,
+                    onChanged: (selected) {
+                      setState(() {
+                        shippingMethodViewModel
+                            .shippingCore?.shippingCompany?[index]
+                            .selected = !(shippingMethodViewModel
+                            .shippingCore?.shippingCompany?[index].selected ??
+                            false);
+                        if (selected) {
+                          selectedShippingMethods?.add(shippingMethodViewModel
+                              .shippingCore!.shippingCompany![index]);
+                        } else {
+                          selectedShippingMethods?.remove(shippingMethodViewModel
+                              .shippingCore?.shippingCompany?[index]);
+                        }
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             const Spacer(),
-            MainButton(
+            shippingMethodViewModel.status == Status.loading
+                ? const CircularProgressIndicator(
+              color: AppColors.primary,
+            )
+                : MainButton(
                 text: getTranslated(context, "save"),
                 width: deviceSize.width * 0.9,
-                onPressed: () {}),
+                onPressed: () async{
+                  bool result = await shippingMethodViewModel.addShipping(
+                      selectedShippingMethods!,
+                      context);
+
+                  if (result) {
+                    toastAppSuccess(
+                        "Shipping Method Added Successfully",
+                        contest: context);
+                  } else {
+                    toastAppErr(
+                        "Shipping Method does not add Successfully ",
+                        contest: context);
+                  }
+                }),
             const SizedBox(
               height: 20,
             ),

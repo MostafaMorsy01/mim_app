@@ -3,8 +3,8 @@ class ShippingMethodCoreModel {
 
   ShippingMethodCoreModel({this.shippingCompany});
 
-  ShippingMethodCoreModel.fromJson(Map<String, dynamic> json) {
-    if (json['shipping_company'] != null) {
+  ShippingMethodCoreModel.fromJson(Map<String, dynamic>? json) {
+    if (json!['shipping_company'] != null) {
       shippingCompany = <ShippingCompany>[];
       json['shipping_company'].forEach((v) {
         shippingCompany!.add(new ShippingCompany.fromJson(v));
@@ -28,9 +28,10 @@ class ShippingCompany {
   String? logo;
   String? createdAt;
   String? updatedAt;
+  bool? selected ;
 
   ShippingCompany(
-      {this.id, this.name, this.logo, this.createdAt, this.updatedAt});
+      {this.id, this.name, this.logo, this.createdAt, this.updatedAt,  this.selected = false});
 
   ShippingCompany.fromJson(Map<String, dynamic> json) {
     id = json['id'];
