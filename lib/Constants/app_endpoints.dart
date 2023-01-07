@@ -22,6 +22,8 @@ class EndPoints {
   static const String store_products = '/store/product';
   static const String store_categories = '/store/categories';
   static const String store_add_products = '/store/product';
+  static const String delete_product = '/store/product/destroy';
+  static const String update_product = '/store/product/update';
   static const String get_products = '/store/products';
   static const String get_specification = '/store/specifications';
   static const String get_products_details = '/product';

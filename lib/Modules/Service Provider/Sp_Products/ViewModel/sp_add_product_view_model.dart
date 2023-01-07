@@ -81,6 +81,7 @@ class SpAddProductViewModel with ChangeNotifier {
 
 
 
+
   Future<void> pickProductAttachmentFiles() async {
     commercialRegisterList = [];
     FilePickerResult? result = await FilePicker.platform.pickFiles(

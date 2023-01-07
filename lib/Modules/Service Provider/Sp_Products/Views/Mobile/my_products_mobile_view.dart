@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meem_app/CommonWidget/title_appbar.dart';
+import 'package:meem_app/CommonWidget/toast.dart';
 import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
@@ -165,10 +166,24 @@ class _SpMyProductsMobileViewState extends State<SpMyProductsMobileView> {
                                                       fontFamily: AppFonts.cairoFontRegular,
                                                       fontSize: 18.0),),
                                                 ),
-                                                SvgPicture.asset(
-                                                  "assets/images/trash.svg",
-                                                  width: 20,
-                                                  height: 20,
+                                                InkWell(
+                                                  onTap: ()async{
+                                                    bool result = await sp_productsViewModel.deleteProduct(sp_productsViewModel
+                                                        .spCore!
+                                                        .spProducts![index].id ?? 0, context);
+                                                    if(result){
+                                                      toastAppSuccess("Product Delete Success" ,contest: context);
+                                                      await sp_productsViewModel.spProductsFetchingData(context);
+                                                    } else {
+                                                      toastAppErr("Error",contest: context);
+                                                      await sp_productsViewModel.spProductsFetchingData(context);
+                                                    }
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/images/trash.svg",
+                                                    width: 20,
+                                                    height: 20,
+                                                  ),
                                                 )
                                               ],
                                             ),

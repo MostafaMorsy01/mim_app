@@ -140,7 +140,7 @@ class _SpUpdateProfileMobileViewState extends State<SpUpdateProfileMobileView> {
                   CustomTextField(
                       deviceSize: deviceSize,
                       hint: getTranslated(context, "name"),
-                      controller: emailController,
+                      controller: nameController,
                       textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.name,
                       icon: AppAssets.userTagIcon,

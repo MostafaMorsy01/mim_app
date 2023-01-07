@@ -6,6 +6,7 @@ import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Services/sp_prod
 import '../../../../Constants/app_enums.dart';
 import '../../../../Models/api_response_model.dart';
 import '../../../../Models/user_model.dart';
+import '../../../../Services/check_api_status_service.dart';
 
 class SpProductsViewModel with ChangeNotifier {
   User? user;
@@ -82,5 +83,41 @@ class SpProductsViewModel with ChangeNotifier {
     //   secondaryStatus = Status.failed;
     //   notifyListeners();
     // }
+  }
+  Future<bool> deleteProduct(
+      int product_id,
+      BuildContext context,
+      ) async {
+
+    status = Status.loading;
+    notifyListeners();
+    try {
+      Map<String, dynamic> body = {
+        "product id": product_id,
+      };
+      print(body);
+      APIResponse response = await webServices.deleteProduct(body);
+      //TODO: Change (Fix the status code problem)
+      bool statusCodeCheck = checkStatusCode(context, response);
+
+      if (statusCodeCheck) {
+        // userId = response.item!;
+        print("success");
+        // addressCore1 = AddAddress.fromJson(response.data!);
+        // print(addressCore1);
+        status = Status.success;
+        print(status);
+        notifyListeners();
+        return true;
+      } else {
+        status = Status.failed;
+        notifyListeners();
+        return false;
+      }
+    } catch (error) {
+      status = Status.failed;
+      notifyListeners();
+      return false;
+    }
   }
 }

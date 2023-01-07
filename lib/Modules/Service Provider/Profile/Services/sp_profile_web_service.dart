@@ -80,11 +80,15 @@ class SpProfileViewWebServices {
       Map<String, String> body,
       String idAttachment,
       String storePhotoAttachment) async {
+    await SecureStorageService.readByKey("accessToken").then((value) => {
+      _token = value,
+    });
     http.Response? response;
     APIResponse apiResponse;
     try {
       var request = http.MultipartRequest('POST',
           Uri.parse(EndPoints.baseUrl + EndPoints.sp_profile));
+      print(request);
       if (idAttachment != "") {
         request.files.add(http.MultipartFile.fromBytes(
             'id_attachment', File(idAttachment).readAsBytesSync(),
@@ -95,9 +99,14 @@ class SpProfileViewWebServices {
             'image', File(storePhotoAttachment).readAsBytesSync(),
             filename: storePhotoAttachment.split('/').last));
       }
+      Map<String, String> headers = {
+        'content-language':'ar',
+        'Accept':'application/json',
+        'Authorization': 'Bearer $_token',
+      };
 
 
-
+      request.headers.addAll(headers);
       request.fields.addAll(body);
       response = await http.Response.fromStream(await request.send());
       apiResponse = APIResponse.fromJson(json.decode(response.body));

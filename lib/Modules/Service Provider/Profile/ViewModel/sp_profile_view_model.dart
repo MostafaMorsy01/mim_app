@@ -128,6 +128,8 @@ class SpProfileViewModel with ChangeNotifier {
           storePhotoAttachemnt,
           nationalIdAttachemnt);
       bool statusCodeCheck = checkStatusCode(context, response);
+      print("status");
+      print(response.status);
       if (statusCodeCheck) {
         userId = response.item!;
         status = Status.success;
