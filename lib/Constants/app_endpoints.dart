@@ -65,6 +65,8 @@ class EndPoints {
   static const String continueWithGoogle = '/continueWithGoogle';
   static const String continueWithApple = '/continueWithApple';
   static const String profile = '/profile';
+  static const String sp_profile = '/store/profile';
+
   static const String version = '/version';
   static const String iOS = '/ios';
   static const String android = '/android';

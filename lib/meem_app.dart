@@ -20,9 +20,11 @@ import 'package:meem_app/Modules/Products/ViewModel/product_detail_view_model.da
 import 'package:meem_app/Modules/Products/ViewModel/product_favourite_view_model.dart';
 import 'package:meem_app/Modules/Profile/Complaint/ViewModel/complaint_view_model.dart';
 import 'package:meem_app/Modules/Profile/ProfileEdit/ViewModel/profile_view_model.dart';
+import 'package:meem_app/Modules/Profile/ProfileEdit/Views/edit_profile_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Authentication/Views/signup_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/payment_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/shipping_view_model.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/sp_profile_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/categories_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/sp_add_product_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/sp_my_products_view_model.dart';
@@ -39,6 +41,7 @@ import 'Modules/Products/ViewModel/product_view_model.dart';
 import 'Modules/Products/Views/products_list_view.dart';
 import 'Modules/Service Provider/Authentication/sp_authentication_view_model.dart';
 import 'Modules/Service Provider/Profile/Views/customer_reviews_view.dart';
+import 'Modules/Service Provider/Profile/Views/edit_profile_view.dart';
 import 'Modules/Service Provider/Sp_Products/ViewModel/specification_view_model.dart';
 import 'Modules/Service Provider/Sp_Products/Views/my_products_view.dart';
 import 'Modules/Service Provider/Profile/Views/payment_options_view.dart';
@@ -83,6 +86,7 @@ class _MeemAppState extends State<MeemApp> {
   OrderListViewModel orderListViewModel = OrderListViewModel();
   PaymentViewModel paymentViewModel = PaymentViewModel();
   ShippingMethodViewModel shippingMethodViewModel = ShippingMethodViewModel();
+  SpProfileViewModel spProfileViewModel = SpProfileViewModel();
 
   late Future myFuture;
 
@@ -179,6 +183,9 @@ class _MeemAppState extends State<MeemApp> {
         ChangeNotifierProvider.value(
             value: shippingMethodViewModel
         ),
+        ChangeNotifierProvider.value(
+            value: spProfileViewModel
+        ),
       ],
       child: Consumer<AuthenticationViewModel>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -234,6 +241,7 @@ class _MeemAppState extends State<MeemApp> {
             SpShippingOptionsView.routeName: (ctx) =>
                 const SpShippingOptionsView(),
             SpMyProductsView.routeName: (ctx) => const SpMyProductsView(),
+            EditSpProfileView.routeName: (ctx) =>const EditSpProfileView(),
             SignupView.routeName: (ctx) => const SignupView(),
             PhoneVerificationView.routeName: (ctx) =>
                 const PhoneVerificationView(),

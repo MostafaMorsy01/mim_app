@@ -5,6 +5,7 @@ import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Authentication/authentication_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/Views/customer_reviews_view.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/Views/edit_profile_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Views/my_products_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/Views/payment_options_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/Views/shipping_options_view.dart';
@@ -89,7 +90,9 @@ class _SpProfileMobileViewState extends State<SpProfileMobileView> {
               ProfileButton(
                 img: AppAssets.profileFilled,
                 text: getTranslated(context, "profile"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(EditSpProfileView.routeName);
+                },
               ),
               ProfileButton(
                 img: AppAssets.bagFilled,

@@ -135,6 +135,7 @@
     "send" :"ارسال",
     "create_user_account" : "قم بعمل حساب مستخدم",
     "featured_category": "الاقسام المفضلة",
+    "category": "الاقسام",
     "celebrity_stores": "متاجر المشاهير",
     "featured_store": "افضل المتاجر",
     "recently_added_stores": "المتاجر المضافة مؤخرا",
@@ -174,6 +175,7 @@
     "order_no": "رقم الطلب #",
     "order_stat": "حالة الطلب:",
     "order_rate": "قيم المتجر او مزود الخدمة(اختياري)",
-    "store_img": "صورة المتجر"
+    "store_img": "صورة المتجر",
+    "open_img": "فتح الصورة"
 
 }

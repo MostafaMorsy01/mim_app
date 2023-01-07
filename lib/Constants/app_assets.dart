@@ -36,6 +36,8 @@ class AppAssets {
   static const String noInternet = "assets/images/no_wifi.png";
   static const String logoutIcon = "assets/images/logout.png";
   static const String globalIcon = "assets/images/global.png";
+  static const String areaIcon = "assets/images/area.png";
+  static const String catIcon = "assets/images/cat.png";
 
   static const String emailIcon = "assets/images/email.png";
   static const String phoneIcon = "assets/images/phone.png";
