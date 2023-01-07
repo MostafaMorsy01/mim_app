@@ -79,6 +79,64 @@ class SpAddProductViewModel with ChangeNotifier {
     }
   }
 
+  Future<bool> spUpdateProductStore(
+      int product_id,
+      String name_en,
+      String name_ar,
+      String description,
+      int price,
+      int qty,
+      int catId,
+      List<int> specifications,
+      BuildContext context,
+      ) async {
+    print("loading");
+    status = Status.loading;
+    notifyListeners();
+    try {
+      status = Status.success;
+      print("success");
+      notifyListeners();
+      Map<String, String> body = {
+        "product_id": product_id.toString(),
+        "name_en": name_en,
+        "name_ar": name_ar,
+        "description": description,
+        "price": price.toString(),
+        "quantity": qty.toString(),
+
+        "category_id": catId.toString(),
+        for (int i = 0; i < specifications.length; i++)
+          "specification_values[$i]": specifications[i].toString(),
+        // for (int i = 0; i < imagesList.length; i++)
+        //   "imagesList[$i]": imagesList[i].toString(),
+
+      };
+      print("go to service");
+      print(imagesList);
+      APIResponse response = await webServices.spUpdateProductStore(
+          body,
+          commercialRegisterList
+      );
+      bool statusCodeCheck = checkStatusCode(context, response);
+
+      if (statusCodeCheck) {
+        // userId = response.item!;
+        status = Status.success;
+        notifyListeners();
+        return true;
+      } else {
+        status = Status.failed;
+        notifyListeners();
+        return false;
+      }
+    } catch (error) {
+      status = Status.failed;
+      notifyListeners();
+      return false;
+    }
+  }
+
 
 
 

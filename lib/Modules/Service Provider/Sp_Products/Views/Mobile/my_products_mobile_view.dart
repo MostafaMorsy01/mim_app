@@ -9,6 +9,7 @@ import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/catego
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/sp_my_products_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/specification_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Views/add_product_view.dart';
+import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Views/update_product_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../Constants/app_enums.dart';
@@ -143,10 +144,22 @@ class _SpMyProductsMobileViewState extends State<SpMyProductsMobileView> {
                                                       fontFamily: AppFonts.cairoFontRegular,
                                                       fontSize: 18.0),),
                                                 ),
-                                                SvgPicture.asset(
-                                                  "assets/images/edit.svg",
-                                                  width: 20,
-                                                  height: 20,
+                                                InkWell(
+                                                  onTap: (){
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                UpdateProductView(specCore: specificationViewModel.specificationCore!, catCore: categoriesViewModel.catCore!,product_id:sp_productsViewModel
+                                                                    .spCore!
+                                                                    .spProducts![index].id)
+                                                        ));
+                                                  },
+                                                  child: SvgPicture.asset(
+                                                    "assets/images/edit.svg",
+                                                    width: 20,
+                                                    height: 20,
+                                                  ),
                                                 )
                                               ],
                                             ),

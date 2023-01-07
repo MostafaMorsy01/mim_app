@@ -4,6 +4,7 @@ import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Authentication/authentication_view_model.dart';
+import 'package:meem_app/Modules/Service%20Provider/Order/Views/sp_order_list_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/Views/customer_reviews_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/Views/edit_profile_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/Views/my_products_view.dart';
@@ -97,7 +98,9 @@ class _SpProfileMobileViewState extends State<SpProfileMobileView> {
               ProfileButton(
                 img: AppAssets.bagFilled,
                 text: getTranslated(context, "orders_management"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(SpOrderListView.routeName);
+                },
               ),
               ProfileButton(
                 img: AppAssets.categoryIcon,

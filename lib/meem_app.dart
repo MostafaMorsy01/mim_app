@@ -22,6 +22,7 @@ import 'package:meem_app/Modules/Profile/Complaint/ViewModel/complaint_view_mode
 import 'package:meem_app/Modules/Profile/ProfileEdit/ViewModel/profile_view_model.dart';
 import 'package:meem_app/Modules/Profile/ProfileEdit/Views/edit_profile_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Authentication/Views/signup_view.dart';
+import 'package:meem_app/Modules/Service%20Provider/Order/ViewModel/sp_order_list_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/payment_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/shipping_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/sp_profile_view_model.dart';
@@ -40,6 +41,7 @@ import 'Modules/Order/ViewModel/order_view_model.dart';
 import 'Modules/Products/ViewModel/product_view_model.dart';
 import 'Modules/Products/Views/products_list_view.dart';
 import 'Modules/Service Provider/Authentication/sp_authentication_view_model.dart';
+import 'Modules/Service Provider/Order/Views/sp_order_list_view.dart';
 import 'Modules/Service Provider/Profile/Views/customer_reviews_view.dart';
 import 'Modules/Service Provider/Profile/Views/edit_profile_view.dart';
 import 'Modules/Service Provider/Sp_Products/ViewModel/specification_view_model.dart';
@@ -87,6 +89,7 @@ class _MeemAppState extends State<MeemApp> {
   PaymentViewModel paymentViewModel = PaymentViewModel();
   ShippingMethodViewModel shippingMethodViewModel = ShippingMethodViewModel();
   SpProfileViewModel spProfileViewModel = SpProfileViewModel();
+  SpOrderListViewModel spOrderListViewModel = SpOrderListViewModel();
 
   late Future myFuture;
 
@@ -186,6 +189,9 @@ class _MeemAppState extends State<MeemApp> {
         ChangeNotifierProvider.value(
             value: spProfileViewModel
         ),
+        ChangeNotifierProvider.value(
+            value: spOrderListViewModel
+        ),
       ],
       child: Consumer<AuthenticationViewModel>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -241,6 +247,7 @@ class _MeemAppState extends State<MeemApp> {
             SpShippingOptionsView.routeName: (ctx) =>
                 const SpShippingOptionsView(),
             SpMyProductsView.routeName: (ctx) => const SpMyProductsView(),
+            SpOrderListView.routeName: (ctx) => const SpOrderListView(),
             EditSpProfileView.routeName: (ctx) =>const EditSpProfileView(),
             SignupView.routeName: (ctx) => const SignupView(),
             PhoneVerificationView.routeName: (ctx) =>

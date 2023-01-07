@@ -44,6 +44,9 @@ class EndPoints {
   static const String order_summary = '/order';
   static const String payment_method = '/store/payments';
   static const String order_list = '/order/orders';
+  static const String sp_order_list = '/store/order';
+  static const String sp_order_status = '/store/order/change/status';
+
 
 
 
