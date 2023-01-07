@@ -84,8 +84,7 @@ class _SpShippingOptionsMobileViewState
             const SizedBox(
               height: 15,
             ),
-            shippingMethodViewModel.secondaryStatus == Status.loading ||
-                shippingMethodViewModel.shippingCore == null
+            shippingMethodViewModel.secondaryStatus == Status.loading
                 ? Center(
               child: CircularProgressIndicator(
                 color: AppColors.primary,

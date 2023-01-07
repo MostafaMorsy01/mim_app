@@ -7,6 +7,10 @@ import 'package:meem_app/Constants/app_assets.dart';
 import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/subscription_view_model.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../../Constants/app_enums.dart';
 
 class SpSubscriptionMobileView extends StatefulWidget {
   const SpSubscriptionMobileView({Key? key}) : super(key: key);
@@ -17,6 +21,21 @@ class SpSubscriptionMobileView extends StatefulWidget {
 }
 
 class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
+  late SubscriptionViewModel subscriptionViewModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    subscriptionViewModel =
+        Provider.of<SubscriptionViewModel>(context, listen: false);
+
+    Future(() async {
+      await subscriptionViewModel.fetchStoreSubscription(context);
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +48,40 @@ class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
         ),
         elevation: 0,
       ),
-      body: const SubscriptionWidget(validSubscription: false),
+      body: subscriptionViewModel.secondaryStatus == Status.loading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primary,
+              ),
+            )
+          : SubscriptionWidget(
+              validSubscription: true,
+              message:
+                  subscriptionViewModel.storeSubscriptionCoreModel?.message ??
+                      "",
+              startDate: subscriptionViewModel.storeSubscriptionCoreModel
+                      ?.currentSubscription?.startDate ??
+                  "",
+              endDate: subscriptionViewModel.storeSubscriptionCoreModel
+                      ?.currentSubscription?.endDate ??
+                  "",
+            ),
     );
   }
 }
 
 class SubscriptionWidget extends StatefulWidget {
   final bool validSubscription;
-  const SubscriptionWidget({Key? key, required this.validSubscription})
+  final String startDate;
+  final String endDate;
+  final String message;
+
+  const SubscriptionWidget(
+      {Key? key,
+      required this.validSubscription,
+      required this.message,
+      required this.endDate,
+      required this.startDate})
       : super(key: key);
 
   @override
@@ -69,9 +114,7 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  widget.validSubscription
-                      ? getTranslated(context, "you_have_subscription")
-                      : getTranslated(context, "ended_subscription"),
+                  widget.message,
                   style: const TextStyle(
                       height: 1.6,
                       color: AppColors.white,
@@ -82,19 +125,7 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
               const SizedBox(
                 height: 5.0,
               ),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  widget.validSubscription
-                      ? getTranslated(context, "subscription_remaining_time")
-                      : getTranslated(context, "please_renew_subscription"),
-                  style: const TextStyle(
-                      height: 1.6,
-                      color: AppColors.white,
-                      fontFamily: AppFonts.cairoFontLight,
-                      fontSize: 15),
-                ),
-              ),
+
             ],
           ),
         ),
@@ -114,8 +145,8 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                     fontFamily: AppFonts.cairoFontRegular,
                     fontSize: 18),
               ),
-              const Text(
-                "10/05/2022",
+               Text(
+                widget.startDate,
                 style: TextStyle(
                     height: 1.6,
                     color: AppColors.black,
@@ -134,7 +165,7 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                     fontSize: 18),
               ),
               Text(
-                "10/08/2022",
+                widget.endDate,
                 style: TextStyle(
                     height: 1.6,
                     color: widget.validSubscription
@@ -349,6 +380,7 @@ class StoreSubscriptionCard extends StatelessWidget {
 class PaymentMethodCard extends StatelessWidget {
   final bool isSelected;
   final String image;
+
   const PaymentMethodCard(
       {Key? key, this.isSelected = false, required this.image})
       : super(key: key);

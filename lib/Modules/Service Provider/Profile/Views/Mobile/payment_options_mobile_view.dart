@@ -87,8 +87,7 @@ class _SpPaymentOptionsMobileViewState
             const SizedBox(
               height: 15,
             ),
-            paymentViewModel.secondaryStatus == Status.loading ||
-                    paymentViewModel.paymentCore == null
+            paymentViewModel.secondaryStatus == Status.loading
                 ? Center(
                     child: CircularProgressIndicator(
                       color: AppColors.primary,

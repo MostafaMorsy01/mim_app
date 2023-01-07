@@ -26,6 +26,7 @@ import 'package:meem_app/Modules/Service%20Provider/Order/ViewModel/sp_order_lis
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/payment_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/shipping_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/sp_profile_view_model.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/subscription_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/categories_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/sp_add_product_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/sp_my_products_view_model.dart';
@@ -90,6 +91,7 @@ class _MeemAppState extends State<MeemApp> {
   ShippingMethodViewModel shippingMethodViewModel = ShippingMethodViewModel();
   SpProfileViewModel spProfileViewModel = SpProfileViewModel();
   SpOrderListViewModel spOrderListViewModel = SpOrderListViewModel();
+  SubscriptionViewModel subscriptionViewModel = SubscriptionViewModel();
 
   late Future myFuture;
 
@@ -191,6 +193,9 @@ class _MeemAppState extends State<MeemApp> {
         ),
         ChangeNotifierProvider.value(
             value: spOrderListViewModel
+        ),
+        ChangeNotifierProvider.value(
+            value: subscriptionViewModel
         ),
       ],
       child: Consumer<AuthenticationViewModel>(

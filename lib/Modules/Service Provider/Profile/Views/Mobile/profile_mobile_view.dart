@@ -125,43 +125,43 @@ class _SpProfileMobileViewState extends State<SpProfileMobileView> {
                       .pushNamed(SpShippingOptionsView.routeName);
                 },
               ),
-              ProfileButton(
-                img: AppAssets.starFilled,
-                text: getTranslated(context, "reviews"),
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(SpCustomerReviewsView.routeName);
-                },
-              ),
-              Row(
-                children: [
-                  ProfileButton(
-                    img: AppAssets.messageFilled,
-                    text: getTranslated(context, "user_chats"),
-                    onPressed: () {},
-                  ),
-                  const Spacer(),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15.0),
-                    width: 36.0,
-                    height: 36.0,
-                    decoration: const BoxDecoration(
-                      color: AppColors.green2,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '1',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          fontFamily: AppFonts.cairoFontRegular,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // ProfileButton(
+              //   img: AppAssets.starFilled,
+              //   text: getTranslated(context, "reviews"),
+              //   onPressed: () {
+              //     Navigator.of(context)
+              //         .pushNamed(SpCustomerReviewsView.routeName);
+              //   },
+              // ),
+              // Row(
+              //   children: [
+              //     ProfileButton(
+              //       img: AppAssets.messageFilled,
+              //       text: getTranslated(context, "user_chats"),
+              //       onPressed: () {},
+              //     ),
+              //     const Spacer(),
+              //     Container(
+              //       margin: const EdgeInsets.symmetric(horizontal: 15.0),
+              //       width: 36.0,
+              //       height: 36.0,
+              //       decoration: const BoxDecoration(
+              //         color: AppColors.green2,
+              //         shape: BoxShape.circle,
+              //       ),
+              //       child: const Center(
+              //         child: Text(
+              //           '1',
+              //           style: TextStyle(
+              //             color: Colors.white,
+              //             fontSize: 16.0,
+              //             fontFamily: AppFonts.cairoFontRegular,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               Row(
                 children: [
                   ProfileButton(

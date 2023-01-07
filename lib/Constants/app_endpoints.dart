@@ -39,6 +39,14 @@ class EndPoints {
   static const String list_shipping = "/store/shippingCompanies";
   static const String add_shipping = "/store/add/shipping";
 
+
+  static const String store_subscription = "/store/subscription";
+  static const String list_subscription = "/store/subscription/list";
+  static const String store_subscription_subscribe = "/store/subscription/subscribe";
+
+
+
+
   // order end points
   static const String place_order = '/order/place';
   static const String order_summary = '/order';
