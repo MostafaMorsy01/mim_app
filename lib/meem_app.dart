@@ -27,6 +27,7 @@ import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/payment_vi
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/shipping_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/sp_profile_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/subscription_view_model.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/Views/list_subscirption_view.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/categories_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/sp_add_product_view_model.dart';
 import 'package:meem_app/Modules/Service%20Provider/Sp_Products/ViewModel/sp_my_products_view_model.dart';
@@ -249,6 +250,7 @@ class _MeemAppState extends State<MeemApp> {
             SpPaymentOptionsView.routeName: (ctx) =>
                 const SpPaymentOptionsView(),
             SpSubscriptionView.routeName: (ctx) => const SpSubscriptionView(),
+            SpListSubscriptionView.routeName: (ctx) => const SpListSubscriptionView(),
             SpShippingOptionsView.routeName: (ctx) =>
                 const SpShippingOptionsView(),
             SpMyProductsView.routeName: (ctx) => const SpMyProductsView(),

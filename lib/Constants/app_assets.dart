@@ -67,4 +67,5 @@ class AppAssets {
   static String fbIcon = "assets/images/fb_icon.png";
   static String googleIcon = "assets/images/google_icon.png";
   static String profileIcon = "assets/images/profile_icon.png";
+  static String goldIcon = "assets/images/gold.png";
 }

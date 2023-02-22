@@ -8,6 +8,7 @@ import 'package:meem_app/Constants/app_colors.dart';
 import 'package:meem_app/Constants/app_fonts.dart';
 import 'package:meem_app/Localization/app_localization.dart';
 import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/subscription_view_model.dart';
+import 'package:meem_app/Modules/Service%20Provider/Profile/Views/list_subscirption_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../Constants/app_enums.dart';
@@ -38,6 +39,8 @@ class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
 
   @override
   Widget build(BuildContext context) {
+    subscriptionViewModel =
+        Provider.of<SubscriptionViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -45,17 +48,23 @@ class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
           title: getTranslated(context, "subscription"),
           buttonTitle: getTranslated(context, "cancel_subscription"),
           buttonTitleColor: AppColors.searchBarClearRed,
+          onPrssed: () {},
         ),
         elevation: 0,
       ),
       body: subscriptionViewModel.secondaryStatus == Status.loading
-          ? Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primary,
-              ),
-            )
+          ? subscriptionViewModel.storeSubscriptionCoreModel != null
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ),
+                )
+              : SizedBox()
           : SubscriptionWidget(
               validSubscription: true,
+              goldSub: subscriptionViewModel
+                      .storeSubscriptionCoreModel?.currentSubscription?.name ??
+                  "",
               message:
                   subscriptionViewModel.storeSubscriptionCoreModel?.message ??
                       "",
@@ -65,6 +74,11 @@ class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
               endDate: subscriptionViewModel.storeSubscriptionCoreModel
                       ?.currentSubscription?.endDate ??
                   "",
+              onPrssed: () {
+                setState(() {
+                  Navigator.of(context).pushNamed(SpListSubscriptionView.routeName);
+                });
+              },
             ),
     );
   }
@@ -75,12 +89,16 @@ class SubscriptionWidget extends StatefulWidget {
   final String startDate;
   final String endDate;
   final String message;
+  final String goldSub;
+  final Function? onPrssed;
 
   const SubscriptionWidget(
       {Key? key,
       required this.validSubscription,
       required this.message,
       required this.endDate,
+      required this.goldSub,
+      this.onPrssed,
       required this.startDate})
       : super(key: key);
 
@@ -125,10 +143,14 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
               const SizedBox(
                 height: 5.0,
               ),
-
             ],
           ),
         ),
+        widget.goldSub == "gold"
+            ? SizedBox(
+                child: Image.asset(AppAssets.goldIcon, fit: BoxFit.cover),
+              )
+            : SizedBox(),
         const SizedBox(
           height: 30.0,
         ),
@@ -145,7 +167,7 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                     fontFamily: AppFonts.cairoFontRegular,
                     fontSize: 18),
               ),
-               Text(
+              Text(
                 widget.startDate,
                 style: TextStyle(
                     height: 1.6,
@@ -183,7 +205,9 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
           child: SecondaryButton(
               text: getTranslated(context, "renew_subscription"),
               width: deviceSize.width * 0.9,
-              onPressed: () {}),
+              onPressed: () {
+                widget.onPrssed!();
+              }),
         ),
         const SizedBox(
           height: 20.0,

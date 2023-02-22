@@ -33,6 +33,10 @@ class AppColors {
   static Color shimmerHighlightColor = Colors.grey[100]!;
   static const Color fbBlue = Color.fromRGBO(24, 119, 242, 1);
   static const Color googleRed = Color.fromRGBO(234, 67, 53, 1);
+  static const Color goldSub = Color.fromRGBO(255, 243, 221, 1.0);
+  static const Color goldBorder = Color.fromRGBO(249, 160, 0, 1.0);
+
+
 }
 
 final Map<int, Color> primaryMap = {

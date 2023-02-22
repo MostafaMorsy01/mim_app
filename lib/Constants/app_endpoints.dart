@@ -3,7 +3,7 @@ class EndPoints {
   static const String _productionUrl = 'PROD'; //LIVE
 
   // ignore: unused_field
-  static const String _devUrl = 'http://164.92.185.162/public/api';
+  static const String _devUrl = 'http://139.59.174.175/meem/public/api';
 
   static const String baseUrl = _devUrl;
   static const String store = '/store';

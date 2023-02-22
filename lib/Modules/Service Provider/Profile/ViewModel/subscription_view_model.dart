@@ -14,6 +14,7 @@ import '../../../../Constants/app_enums.dart';
 import '../../../../Models/api_response_model.dart';
 import '../../../../Models/user_model.dart';
 import '../../../../Services/check_api_status_service.dart';
+import '../Model/list_subcription_core_model.dart';
 import '../Model/payment_method_core_model.dart';
 
 
@@ -28,6 +29,7 @@ class SubscriptionViewModel with ChangeNotifier {
   // AddAddress? addressCore1;
   // PaymentMethodCoreModel? paymentCore;
   StoreSubscriptionCoreModel? storeSubscriptionCoreModel;
+  StoreListSubscriptionCoreModel? storeListSubscriptionCoreModel;
   // SpSignupListData? listData;
   String nationalIdAttachemnt = "";
   String? nationalIdAttachemntExtension;
@@ -54,6 +56,33 @@ class SubscriptionViewModel with ChangeNotifier {
     notifyListeners();
     if (response?.status == 200) {
       storeSubscriptionCoreModel = StoreSubscriptionCoreModel.fromJson(response?.data);
+      print("dataa");
+      print("done");
+      print(secondaryStatus);
+      secondaryStatus = Status.success;
+      notifyListeners();
+    } else {
+      print("erorrrrrr");
+    }
+
+
+  }
+
+  Future<void> fetchListStoreSubscription(
+      BuildContext context,
+      ) async {
+    print("loading");
+    secondaryStatus = Status.loading;
+    notifyListeners();
+    print("start");
+    APIResponse? response = await webServices.fetchListStoreSubscription();
+    print("message");
+    print(response?.status);
+    print(response?.message);
+    print(response?.item);
+    notifyListeners();
+    if (response?.status == 200) {
+      storeListSubscriptionCoreModel = StoreListSubscriptionCoreModel.fromJson(response?.data);
       print("dataa");
       print("done");
       print(secondaryStatus);
