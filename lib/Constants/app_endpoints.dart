@@ -43,6 +43,7 @@ class EndPoints {
   static const String store_subscription = "/store/subscription";
   static const String list_subscription = "/store/subscription/list";
   static const String store_subscription_subscribe = "/store/subscription/subscribe";
+  static const String store_subscription_cancel = "/store/subscription/cancel";
 
 
 

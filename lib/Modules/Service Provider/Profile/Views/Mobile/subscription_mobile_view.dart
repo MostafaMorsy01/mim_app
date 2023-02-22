@@ -11,6 +11,7 @@ import 'package:meem_app/Modules/Service%20Provider/Profile/ViewModel/subscripti
 import 'package:meem_app/Modules/Service%20Provider/Profile/Views/list_subscirption_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../CommonWidget/toast.dart';
 import '../../../../../Constants/app_enums.dart';
 
 class SpSubscriptionMobileView extends StatefulWidget {
@@ -39,6 +40,7 @@ class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
     subscriptionViewModel =
         Provider.of<SubscriptionViewModel>(context, listen: true);
     return Scaffold(
@@ -48,7 +50,21 @@ class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
           title: getTranslated(context, "subscription"),
           buttonTitle: getTranslated(context, "cancel_subscription"),
           buttonTitleColor: AppColors.searchBarClearRed,
-          onPrssed: () {},
+          onPrssed: () async {
+            bool result = await subscriptionViewModel.CancelSubscribe(
+                subscriptionViewModel
+                        .storeSubscriptionCoreModel?.currentSubscription?.id ??
+                    0,
+                context);
+
+            if (result) {
+              toastAppSuccess("Your subscription Canceled Successfully",
+                  contest: context);
+            } else {
+              toastAppErr("Your subscription Not Canceled Successfully ",
+                  contest: context);
+            }
+          },
         ),
         elevation: 0,
       ),
@@ -59,7 +75,28 @@ class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
                     color: AppColors.primary,
                   ),
                 )
-              : SizedBox()
+              : SizedBox(
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      Align(
+                        alignment: Alignment.center,
+                        child: SecondaryButton(
+                            text: getTranslated(context, "renew_subscription"),
+                            width: deviceSize.width * 0.9,
+                            onPressed: () {
+                              setState(() {
+                                Navigator.of(context)
+                                    .pushNamed(SpListSubscriptionView.routeName);
+                              });
+                            }),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      )
+                    ],
+                  ),
+                )
           : SubscriptionWidget(
               validSubscription: true,
               goldSub: subscriptionViewModel
@@ -76,7 +113,8 @@ class _SpSubscriptionMobileViewState extends State<SpSubscriptionMobileView> {
                   "",
               onPrssed: () {
                 setState(() {
-                  Navigator.of(context).pushNamed(SpListSubscriptionView.routeName);
+                  Navigator.of(context)
+                      .pushNamed(SpListSubscriptionView.routeName);
                 });
               },
             ),

@@ -134,6 +134,83 @@ class SubscriptionViewModel with ChangeNotifier {
   }
 
 
+  Future<bool> Subscribe(
+      BuildContext context,
+      int subscription_id,
+      ) async {
+
+    status = Status.loading;
+    notifyListeners();
+    try {
+      Map<String, dynamic> body = {
+        "subscription_id":subscription_id
+
+      };
+      print(body);
+      APIResponse response = await webServices.addSubscription(body);
+      //TODO: Change (Fix the status code problem)
+      bool statusCodeCheck = checkStatusCode(context, response);
+
+      if (statusCodeCheck) {
+        // userId = response.item!;
+        print("success");
+        // addressCore1 = AddAddress.fromJson(response.data!);
+        // print(addressCore1);
+        status = Status.success;
+        print(status);
+        notifyListeners();
+        return true;
+      } else {
+        status = Status.failed;
+        notifyListeners();
+        return false;
+      }
+    } catch (error) {
+      status = Status.failed;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> CancelSubscribe(
+      int subscription_id,
+      BuildContext context,
+      ) async {
+
+    status = Status.loading;
+    notifyListeners();
+    try {
+      Map<String, dynamic> body = {
+        "subscription_id":subscription_id
+
+      };
+      print(body);
+      APIResponse response = await webServices.cancelSubscription(body);
+      //TODO: Change (Fix the status code problem)
+      bool statusCodeCheck = checkStatusCode(context, response);
+
+      if (statusCodeCheck) {
+        // userId = response.item!;
+        print("success");
+        // addressCore1 = AddAddress.fromJson(response.data!);
+        // print(addressCore1);
+        status = Status.success;
+        print(status);
+        notifyListeners();
+        return true;
+      } else {
+        status = Status.failed;
+        notifyListeners();
+        return false;
+      }
+    } catch (error) {
+      status = Status.failed;
+      notifyListeners();
+      return false;
+    }
+  }
+
+
 // Future<bool> deleteAddress(
 //     int address_id,
 //     BuildContext context,
