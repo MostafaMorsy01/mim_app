@@ -88,13 +88,13 @@ class _SpListSubscriptionMobileViewState
                                   .toString(),
                               onPrssed: () async {
                                 bool result =
-                                    await subscriptionViewModel.CancelSubscribe(
+                                    await subscriptionViewModel.Subscribe(context,
                                         subscriptionViewModel
                                                 .storeListSubscriptionCoreModel
                                                 ?.subscriptions
                                                 ?[index].id ??
-                                            0,
-                                        context);
+                                            0
+                                        );
 
                                 if (result) {
                                   toastAppSuccess(
